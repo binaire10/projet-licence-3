@@ -1,0 +1,50 @@
+version: "3"
+services:
+  database:
+    image: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: bibliotheque
+      MYSQL_USER: user
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: test
+    volumes:
+      - persistent:/var/lib/mysql
+    networks:
+      - siteBibliotheque
+  webserver:
+    build:
+      context: ./webserver
+      args:
+        - APP_ENV=dev
+    image: webserver
+    depends_on:
+      - database
+    ports:
+      - "80:80"
+    volumes:
+      - ./webserver/src:/var/www
+    environment:
+      XDEBUG_CONFIG: remote_host=host.docker.internal
+    networks:
+      - siteBibliotheque
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    depends_on:
+      - database
+    ports:
+      - "8000:80"
+    environment:
+      PMA_HOST: database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: test
+    networks:
+      - siteBibliotheque
+networks:
+  siteBibliotheque: {}
+volumes:
+  persistent: {}

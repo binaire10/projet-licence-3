@@ -1,0 +1,36 @@
+version: "3"
+services:
+  database:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: bibliotheque
+      MYSQL_USER: user
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: test
+    volumes:
+      - persistent:/var/lib/mysql
+    build:
+
+    networks:
+      - siteBibliotheque
+  webserver:
+    build:
+      context: ./webserver
+      args:
+        - APP_ENV=dev
+    image: webserver
+    depends_on:
+      - database
+    ports:
+      - "80:80"
+    volumes:
+      - ./webserver/src:/var/www
+    environment:
+      XDEBUG_CONFIG: remote_host=host.docker.internal
+    networks:
+      - siteBibliotheque
+networks:
+  siteBibliotheque: {}
+volumes:
+  persistent: {}
