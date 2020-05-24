@@ -53,7 +53,6 @@ class PrettyPrintOutput implements BaliseVisitor
             $this->attributeToEcho($s->getAttribute());
             echo '>';
             ++$this->ident;
-            $strIdent = str_repeat($this->identString, $this->ident);
             foreach ($s->getChild() as $child) {
                 $child->accept($this);
             }
@@ -87,5 +86,22 @@ class PrettyPrintOutput implements BaliseVisitor
         }
         --$this->ident;
         echo '</', $tag, '>', PHP_EOL;
+    }
+
+    public function visitBlockNotEmpty(Balise\BlockBaliseNotEmpty $param): void
+    {
+        $tag = htmlspecialchars($param->getName());
+        echo '<', $tag;
+        $this->attributeToEcho($param->getAttribute());
+        echo '>', PHP_EOL;
+        ++$this->ident;
+        $strIdent = str_repeat($this->identString, $this->ident);
+        foreach ($param->getChild() as $child) {
+            echo $strIdent;
+            $child->accept($this);
+            echo PHP_EOL;
+        }
+        --$this->ident;
+        echo str_repeat($this->identString, $this->ident), '</', $tag, '>';
     }
 }

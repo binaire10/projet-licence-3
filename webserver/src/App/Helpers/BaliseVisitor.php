@@ -11,4 +11,5 @@ interface BaliseVisitor
     public function visitInline(\App\Helpers\Balise\InlineBalise $s): void;
     public function visitLiteral(\App\Helpers\Balise\Literal $param):void;
     public function visitDocument(\App\Helpers\Balise\HTMLDocument $param):void;
+    public function visitBlockNotEmpty(\App\Helpers\Balise\BlockBaliseNotEmpty $param):void;
 }

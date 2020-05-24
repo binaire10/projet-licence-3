@@ -5,6 +5,7 @@ namespace App\Helpers;
 
 
 use App\Helpers\Balise\BlockBalise;
+use App\Helpers\Balise\BlockBaliseNotEmpty;
 use App\Helpers\Balise\InlineBalise;
 use App\Helpers\Balise\Literal;
 
@@ -132,9 +133,9 @@ class BaliseBlockBuilder
         return new InlineBalise('link', $tag);
     }
 
-    public static function create_script(array $tag = []): BlockBalise
+    public static function create_script(array $tag = []): BlockBaliseNotEmpty
     {
-        return new BlockBalise('script', $tag, [new Literal('')]);
+        return new BlockBaliseNotEmpty('script', $tag, []);
     }
 
     public static function create_nav(array $tag = []): BlockBalise
@@ -147,9 +148,9 @@ class BaliseBlockBuilder
         return new BlockBalise('section', $tag);
     }
 
-    public static function make_noscript(): BlockBalise
+    public static function make_noscript(): BlockBaliseNotEmpty
     {
-        return new BlockBalise('noscript');
+        return new BlockBaliseNotEmpty('noscript');
     }
 
     public static function create_textArea(array $tag = []): InlineBalise
@@ -162,9 +163,9 @@ class BaliseBlockBuilder
         return new BlockBalise('form', $tag);
     }
 
-    public static function create_div(array $tag = []): BlockBalise
+    public static function create_div(array $tag = []): BlockBaliseNotEmpty
     {
-        return new BlockBalise('div', $tag);
+        return new BlockBaliseNotEmpty('div', $tag);
     }
 
     public static function create_a(string $name, array $tag = []): InlineBalise
@@ -277,18 +278,18 @@ class BaliseBlockBuilder
         return new BlockBalise('fieldset', $tag);
     }
 
-    public static function make_a($tag = null)
+    public static function make_a($tag = null):InlineBalise
     {
         return new InlineBalise('a', $tag);
     }
 
-    public static function create_head(array $tag = [], array $child = [])
+    public static function create_head(array $tag = [], array $child = []): BlockBaliseNotEmpty
     {
-        return new BlockBalise('head', $tag, $child);
+        return new BlockBaliseNotEmpty('head', $tag, $child);
     }
 
-    public static function create_body(array $tag = [], array $child = [])
+    public static function create_body(array $tag = [], array $child = []): BlockBaliseNotEmpty
     {
-        return new BlockBalise('body', $tag, $child);
+        return new BlockBaliseNotEmpty('body', $tag, $child);
     }
 }

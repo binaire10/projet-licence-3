@@ -25,10 +25,9 @@ class StringOutput implements BaliseVisitor
         else {
             $this->data .= '<' . $tag;
             $this->data .= $this->attributeToEcho($s->getAttribute());
-            $this->data .= '>' . PHP_EOL;
+            $this->data .= '>';
             foreach ($s->getChild() as $child) {
                 $child->accept($this);
-                $this->data .= PHP_EOL;
             }
             $this->data .= '</' . $tag . '>';
         }
@@ -69,14 +68,13 @@ class StringOutput implements BaliseVisitor
     public function visitDocument(\App\Helpers\Balise\HTMLDocument $param): void
     {
         $tag = htmlspecialchars($param->getName());
-        $this->data = '<!DOCTYPE html>' . PHP_EOL . '<' . $tag;
+        $this->data = '<!DOCTYPE html>' . '<' . $tag;
         $this->data .= $this->attributeToEcho($param->getAttribute());
-        $this->data .= '>' . PHP_EOL;
+        $this->data .= '>';
         foreach ($param->getChild() as $child) {
             $child->accept($this);
-            $this->data .= PHP_EOL;
         }
-        $this->data .=  '</' . $tag . '>' . PHP_EOL;
+        $this->data .=  '</' . $tag . '>';
     }
 
     /**
@@ -85,5 +83,17 @@ class StringOutput implements BaliseVisitor
     public function getData(): string
     {
         return $this->data;
+    }
+
+    public function visitBlockNotEmpty(Balise\BlockBaliseNotEmpty $param): void
+    {
+        $tag = htmlspecialchars($param->getName());
+        $this->data .= '<' . $tag;
+        $this->data .= $this->attributeToEcho($param->getAttribute());
+        $this->data .= '>';
+        foreach ($param->getChild() as $child) {
+            $child->accept($this);
+        }
+        $this->data .= '</' . $tag . '>';
     }
 }
