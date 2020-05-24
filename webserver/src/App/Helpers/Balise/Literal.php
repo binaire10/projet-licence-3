@@ -4,7 +4,7 @@
 namespace App\Helpers\Balise;
 
 
-class Literal implements Balise
+class Literal implements \App\Helpers\Balise
 {
     private string $string;
 

@@ -6,6 +6,7 @@ namespace App\Helpers;
 
 use App\Helpers\Balise\BlockBalise;
 use App\Helpers\Balise\InlineBalise;
+use App\Helpers\Balise\Literal;
 
 class BaliseBlockBuilder
 {
@@ -133,7 +134,7 @@ class BaliseBlockBuilder
 
     public static function create_script(array $tag = []): BlockBalise
     {
-        return new BlockBalise('script', $tag);
+        return new BlockBalise('script', $tag, [new Literal('')]);
     }
 
     public static function create_nav(array $tag = []): BlockBalise

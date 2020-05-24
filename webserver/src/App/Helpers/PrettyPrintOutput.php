@@ -72,7 +72,7 @@ class PrettyPrintOutput implements BaliseVisitor
         echo $param->getString();
     }
 
-    public function visitDocument(\App\Helpers\Balise\HTMLDocument $param)
+    public function visitDocument(\App\Helpers\Balise\HTMLDocument $param):void
     {
         $tag = htmlspecialchars($param->getName());
         echo '<!DOCTYPE html>', PHP_EOL, '<', $tag;
@@ -86,6 +86,6 @@ class PrettyPrintOutput implements BaliseVisitor
             echo PHP_EOL;
         }
         --$this->ident;
-        echo '</', $tag, '>';
+        echo '</', $tag, '>', PHP_EOL;
     }
 }
