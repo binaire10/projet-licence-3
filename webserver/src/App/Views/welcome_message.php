@@ -283,16 +283,6 @@
                 join us</a> ?</p>
 
     </section>
-    <section>
-    <pre>
-To do an efficient game jam we have found a study from Stanford University about the effect of time constraint in design idea generation and its impact on creativity and originality.
-One of the done experiences was to see how it is interesting to decompose the time in sessions for the step “concept and development. In fact, that affects the creativity and idea production.
-The time has been divided in many parts to observe the influence on idea generating. They try to test some group composition like working first alone and then in group and vice versa to evaluate the help of that.
-These experiences showed that more the session was short and more the idea was produced. But the side effect was a lowest creativity, and in the worst case it may lack originality by plagiarism of idea already produced.
-As shown in this graph there is a middle point explaining that if we spend a lot of time on a session, the ideas can be scattered. Otherwise, that can disturb the production of ideas. They would not have enough time to be produced
-A good thing to improve the idea productivity and originality is to work alone in the first step and work in group in a second step. Working alone and in a group seems to be better than the reverse. Combining the two ways allows a better idea generating.
-    </pre>
-    </section>
 </div>
 
 <!-- FOOTER: DEBUG INFO + COPYRIGHTS -->

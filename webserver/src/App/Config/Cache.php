@@ -22,7 +22,7 @@ class Cache extends BaseConfig
 	|
 	| The name of the handler that will be used in case the first one is
 	| unreachable. Often, 'file' is used here since the filesystem is
-	| always available, though that's not always practical for the app.
+	| always available, though that's not always practical for the App.
 	|
 	*/
 	public $backupHandler = 'dummy';
