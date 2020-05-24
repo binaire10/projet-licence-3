@@ -4,6 +4,7 @@
 namespace App\Helpers\Page;
 
 
+use App\Helpers\Balise;
 use App\Helpers\BaliseBlockBuilder;
 use App\Helpers\BaliseVisitor;
 use App\Helpers\Balise\HTMLDocument;
@@ -37,5 +38,25 @@ class EmptyPage implements Page
                 ]
             )
         );
+    }
+
+    public function addScript(Balise $script):self {
+        $this->script[] = $script;
+        return $this;
+    }
+
+    public function addContent(Balise $balise):self {
+        $this->body[] = $balise;
+        return $this;
+    }
+
+    public function addContents(Balise... $balises):self {
+        return $this->addContentsArrays($balises);
+    }
+
+    public function addContentsArrays(array $balises):self {
+        foreach ($balises as $balise)
+            $this->body[] = $balise;
+        return $this;
     }
 }
