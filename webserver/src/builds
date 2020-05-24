@@ -120,7 +120,7 @@ if (is_file($file))
 
 // Paths config and PHPUnit XMLs
 $files = [
-	__DIR__ . DIRECTORY_SEPARATOR . 'app/Config/Paths.php',
+    __DIR__ . DIRECTORY_SEPARATOR,
 	__DIR__ . DIRECTORY_SEPARATOR . 'phpunit.xml.dist',
 	__DIR__ . DIRECTORY_SEPARATOR . 'phpunit.xml',
 ];
