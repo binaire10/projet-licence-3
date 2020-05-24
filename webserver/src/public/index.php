@@ -13,7 +13,7 @@ define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
 
 // Location of the Paths config file.
 // This is the line that might need to be changed, depending on your folder structure.
-$pathsPath = realpath(FCPATH . '../app/Config/Paths.php');
+$pathsPath = realpath(FCPATH . '../App/Config/Paths.php');
 // ^^^ Change this if you move your application folder
 
 /*
@@ -40,6 +40,6 @@ $app = require rtrim($paths->systemDirectory, '/ ') . '/bootstrap.php';
  * LAUNCH THE APPLICATION
  *---------------------------------------------------------------
  * Now that everything is setup, it's time to actually fire
- * up the engines and make this app do its thang.
+ * up the engines and make this App do its thang.
  */
 $app->run();
