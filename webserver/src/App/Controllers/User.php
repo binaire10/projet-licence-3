@@ -21,6 +21,7 @@ class User extends BaseController
 
     public function signup()
     {
+        force_https();
         $email = $this->request->getPost('email', FILTER_VALIDATE_EMAIL);
         $password = $this->request->getPost('password');
         $username = $this->request->getPost('username');

@@ -24,6 +24,7 @@ services:
       - database
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./webserver/src:/var/www
     environment:
