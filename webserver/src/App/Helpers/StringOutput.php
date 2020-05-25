@@ -96,4 +96,16 @@ class StringOutput implements BaliseVisitor
         }
         $this->data .= '</' . $tag . '>';
     }
+
+    public function visitInlineNotEmpty(Balise\InlineBaliseNotEmpty $param): void
+    {
+        $tag = htmlspecialchars($param->getName());
+        $this->data .= '<' . $tag;
+        $this->data .= $this->attributeToEcho($param->getAttribute());
+        $this->data .= '>';
+        foreach ($param->getChild() as $child) {
+            $child->accept($this);
+        }
+        $this->data .= '</' . $tag . '>';
+    }
 }

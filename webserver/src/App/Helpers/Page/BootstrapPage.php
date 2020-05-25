@@ -18,10 +18,10 @@ class BootstrapPage extends EmptyPage
     {
         parent::__construct(array_merge($head, [
             BaliseBlockBuilder::create_script(array('type'=>'text/javascript'))->addContent(
-                new Balise\Literal('function jqueryFail(){document.write('.json_encode(self::to_string(BaliseBlockBuilder::create_script(array('src'=>'/js/vendor/jquery-3.3.1.min.js',  'integrity'=>('sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT'))))).');};'),
-                new Balise\Literal('function jqueryUiFail(){document.write('.json_encode(self::to_string(BaliseBlockBuilder::create_script(array('src'=>'/js/vendor/jquery-ui.min.js',  'integrity'=>('sha384-Dziy8F2VlJQLMShA6FHWNul/veM9bCkRUaLqr199K94ntO5QUrLJBEbYegdSkkqX'))))).');};'),
-                new Balise\Literal('function popperFail(){document.write('.json_encode(self::to_string(BaliseBlockBuilder::create_script(array('src'=>'/js/vendor/popper.min.js',        'integrity'=>('sha384-pNovaElo1D1KMSDhyjlgzWzyKBFUAiE7uKtjl/kj/7ECT1PPe5YnLD5vnWbU9nvV'))))).');};'),
-                new Balise\Literal('function boostrapJSFail(){document.write('.json_encode(self::to_string(BaliseBlockBuilder::create_script(array('src'=>'/js/vendor/bootstrap.min.js', 'integrity'=>('sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl'))))).');};'),
+                new Balise\Literal('function jqueryFail(){document.write('.json_encode(self::to_string(BaliseBlockBuilder::create_script(array('src'=>base_url('js/vendor/jquery-3.3.1.min.js'),  'integrity'=>('sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT'))))).');};'),
+                new Balise\Literal('function jqueryUiFail(){document.write('.json_encode(self::to_string(BaliseBlockBuilder::create_script(array('src'=>base_url('js/vendor/jquery-ui.min.js'),  'integrity'=>('sha384-Dziy8F2VlJQLMShA6FHWNul/veM9bCkRUaLqr199K94ntO5QUrLJBEbYegdSkkqX'))))).');};'),
+                new Balise\Literal('function popperFail(){document.write('.json_encode(self::to_string(BaliseBlockBuilder::create_script(array('src'=>base_url('/js/vendor/popper.min.js'),        'integrity'=>('sha384-pNovaElo1D1KMSDhyjlgzWzyKBFUAiE7uKtjl/kj/7ECT1PPe5YnLD5vnWbU9nvV'))))).');};'),
+                new Balise\Literal('function boostrapJSFail(){document.write('.json_encode(self::to_string(BaliseBlockBuilder::create_script(array('src'=>base_url('/js/vendor/bootstrap.min.js'), 'integrity'=>('sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl'))))).');};'),
                 new Balise\Literal('function boostrapCSSFail(){let link = document.createElement(\'link\');link.setAttribute(\'href\','
                     .json_encode('/css/vendor/bootstrap.min.css')
                     .');link.setAttribute(\'rel\',\'stylesheet\');link.setAttribute(\'integrity\','

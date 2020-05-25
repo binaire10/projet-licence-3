@@ -7,100 +7,101 @@ namespace App\Helpers;
 use App\Helpers\Balise\BlockBalise;
 use App\Helpers\Balise\BlockBaliseNotEmpty;
 use App\Helpers\Balise\InlineBalise;
+use App\Helpers\Balise\InlineBaliseNotEmpty;
 use App\Helpers\Balise\Literal;
 
 class BaliseBlockBuilder
 {
-    public static function create_table(array $tag = []): BlockBalise
+    public static function create_table(array $attr = []): BlockBalise
     {
-        return new BlockBalise('table', $tag);
+        return new BlockBalise('table', $attr);
     }
 
-    public static function create_thead(array $tag = []): BlockBalise
+    public static function create_thead(array $attr = []): BlockBalise
     {
-        return new BlockBalise('thead', $tag);
+        return new BlockBalise('thead', $attr);
     }
 
-    public static function create_tbody(array $tag = []): BlockBalise
+    public static function create_tbody(array $attr = []): BlockBalise
     {
-        return new BlockBalise('tbody', $tag);
+        return new BlockBalise('tbody', $attr);
     }
 
-    public static function create_th(string $texte, array $tag = []): InlineBalise
+    public static function create_th(string $texte, array $attr = []): InlineBalise
     {
-        return new InlineBalise('th', $tag, array($texte));
+        return new InlineBalise('th', $attr, array(self::create_string($texte)));
     }
 
-    public static function create_option(string $texte, array $tag = []): InlineBalise
+    public static function create_option(string $texte, array $attr = []): InlineBalise
     {
-        return new InlineBalise('option', $tag, array($texte));
+        return new InlineBalise('option', $attr, array(self::create_string($texte)));
     }
 
-    public static function make_option(array $tag = []): InlineBalise
+    public static function make_option(array $attr = []): InlineBalise
     {
-        return new InlineBalise('option', $tag, array());
+        return new InlineBalise('option', $attr, array());
     }
 
-    public static function make_select(array $tag = []): BlockBalise
+    public static function make_select(array $attr = []): BlockBalise
     {
-        return new BlockBalise('select', $tag, array());
+        return new BlockBalise('select', $attr, array());
     }
 
-    public static function create_label(string $texte, array $tag = []): InlineBalise
+    public static function create_label(string $texte, array $attr = []): InlineBaliseNotEmpty
     {
-        return new InlineBalise('label', $tag, array($texte));
+        return new InlineBaliseNotEmpty('label', $attr, array(self::create_string($texte)));
     }
 
-    public static function create_input(array $tag = []): InlineBalise
+    public static function create_input(array $attr = []): InlineBalise
     {
-        return new InlineBalise('input', $tag);
+        return new InlineBalise('input', $attr);
     }
 
-    public static function create_td(string $texte, array $tag = []): InlineBalise
+    public static function create_td(string $texte, array $attr = []): InlineBalise
     {
-        return new InlineBalise('td', $tag, array($texte));
+        return new InlineBalise('td', $attr, array(self::create_string($texte)));
     }
 
-    public static function make_td(array $tag = []): InlineBalise
+    public static function make_td(array $attr = []): InlineBalise
     {
-        return new InlineBalise('td', $tag);
+        return new InlineBalise('td', $attr);
     }
 
-    public static function make_th(array $tag = []): InlineBalise
+    public static function make_th(array $attr = []): InlineBalise
     {
-        return new InlineBalise('th', $tag);
+        return new InlineBalise('th', $attr);
     }
 
-    public static function make_tr(array $tag = []): InlineBalise
+    public static function make_tr(array $attr = []): InlineBalise
     {
-        return new InlineBalise('tr', $tag);
+        return new InlineBalise('tr', $attr);
     }
 
-    public static function create_tr(array $tag = []): BlockBalise
+    public static function create_tr(array $attr = []): BlockBalise
     {
-        return new BlockBalise('tr', $tag, null);
+        return new BlockBalise('tr', $attr, null);
     }
 
-    public static function create_button(string $text, array $tag = []): InlineBalise
+    public static function create_button(string $text, array $attr = []): InlineBalise
     {
-        return new InlineBalise('button', $tag, array($text));
+        return new InlineBalise('button', $attr, array(self::create_string($text)));
     }
 
-    public static function create_address(string $text, array $tag = []): InlineBalise
+    public static function create_address(string $text, array $attr = []): InlineBaliseNotEmpty
     {
-        return new InlineBalise('address', $tag, array($text));
+        return new InlineBaliseNotEmpty('address', $attr, array(self::create_string($text)));
     }
 
-    public static function create_abbr(string $text, array $tag = []): InlineBalise
+    public static function create_abbr(string $text, array $attr = []): InlineBaliseNotEmpty
     {
-        return new InlineBalise('abbr', $tag, array($text));
+        return new InlineBaliseNotEmpty('abbr', $attr, array(self::create_string($text)));
     }
 
-    public static function create_p(?string $text = null, array $tag = []): InlineBalise
+    public static function create_p(?string $text = null, array $attr = []): InlineBalise
     {
         if($text != null)
-            return new InlineBalise('p', $tag, array($text));
-        return new InlineBalise('p', $tag);
+            return new InlineBalise('p', $attr, array(self::create_string($text)));
+        return new InlineBalise('p', $attr);
     }
 
     public static function create_commentaire(string $text): Literal
@@ -113,39 +114,39 @@ class BaliseBlockBuilder
         return new StringBalise($text);
     }
 
-    public static function create_q(string $name, array $tag = []): InlineBalise
+    public static function create_q(string $name, array $attr = []): InlineBalise
     {
-        return new InlineBalise('q', $tag, array($name));
+        return new InlineBalise('q', $attr, array(self::create_string($name)));
     }
 
-    public static function create_title(string $name, array $tag = []): InlineBalise
+    public static function create_title(string $name, array $attr = []): InlineBalise
     {
-        return new InlineBalise('title', $tag, array(self::create_string($name)));
+        return new InlineBalise('title', $attr, array(self::create_string($name)));
     }
 
-    public static function create_meta(array $tag = []): InlineBalise
+    public static function create_meta(array $attr = []): InlineBalise
     {
-        return new InlineBalise('meta', $tag);
+        return new InlineBalise('meta', $attr);
     }
 
-    public static function create_link(array $tag = []): InlineBalise
+    public static function create_link(array $attr = []): InlineBalise
     {
-        return new InlineBalise('link', $tag);
+        return new InlineBalise('link', $attr);
     }
 
-    public static function create_script(array $tag = []): BlockBaliseNotEmpty
+    public static function create_script(array $attr = []): BlockBaliseNotEmpty
     {
-        return new BlockBaliseNotEmpty('script', $tag, []);
+        return new BlockBaliseNotEmpty('script', $attr, []);
     }
 
-    public static function create_nav(array $tag = []): BlockBalise
+    public static function create_nav(array $attr = []): BlockBalise
     {
-        return new BlockBalise('nav', $tag);
+        return new BlockBalise('nav', $attr);
     }
 
-    public static function create_section(array $tag = []): BlockBalise
+    public static function create_section(array $attr = []): BlockBalise
     {
-        return new BlockBalise('section', $tag);
+        return new BlockBalise('section', $attr);
     }
 
     public static function make_noscript(): BlockBaliseNotEmpty
@@ -153,143 +154,143 @@ class BaliseBlockBuilder
         return new BlockBaliseNotEmpty('noscript');
     }
 
-    public static function create_textArea(array $tag = []): InlineBalise
+    public static function create_textArea(array $attr = []): InlineBalise
     {
-        return new InlineBalise('textarea', $tag);
+        return new InlineBalise('textarea', $attr);
     }
 
-    public static function create_form(array $tag = []): BlockBalise
+    public static function create_form(array $attr = []): BlockBalise
     {
-        return new BlockBalise('form', $tag);
+        return new BlockBalise('form', $attr);
     }
 
-    public static function create_div(array $tag = []): BlockBaliseNotEmpty
+    public static function create_div(array $attr = []): BlockBaliseNotEmpty
     {
-        return new BlockBaliseNotEmpty('div', $tag);
+        return new BlockBaliseNotEmpty('div', $attr);
     }
 
-    public static function create_a(string $name, array $tag = []): InlineBalise
+    public static function create_a(string $name, array $attr = []): InlineBaliseNotEmpty
     {
-        return new InlineBalise('a', $tag, array($name));
+        return new InlineBaliseNotEmpty('a', $attr, array(self::create_string($name)));
     }
 
-    public static function create_span(string $name, array $tag = []): InlineBalise
+    public static function create_span(string $name, array $attr = []): InlineBalise
     {
-        return new InlineBalise('span', $tag, array($name));
+        return new InlineBalise('span', $attr, array(self::create_string($name)));
     }
 
-    public static function create_i(string $name, array $tag = []): InlineBalise
+    public static function create_i(string $name, array $attr = []): InlineBalise
     {
-        return new InlineBalise('i', $tag, array($name));
+        return new InlineBalise('i', $attr, array(self::create_string($name)));
     }
 
-    public static function make_i(array $tag = []): InlineBalise
+    public static function make_i(array $attr = []): InlineBalise
     {
-        return new InlineBalise('i', $tag);
+        return new InlineBalise('i', $attr);
     }
 
-    public static function create_header(array $tag = []): BlockBalise
+    public static function create_header(array $attr = []): BlockBalise
     {
-        return new BlockBalise('header', $tag);
+        return new BlockBalise('header', $attr);
     }
 
-    public static function create_article(array $tag = []): BlockBalise
+    public static function create_article(array $attr = []): BlockBalise
     {
-        return new BlockBalise('article', $tag);
+        return new BlockBalise('article', $attr);
     }
 
-    public static function create_footer(array $tag = []): BlockBalise
+    public static function create_footer(array $attr = []): BlockBalise
     {
-        return new BlockBalise('footer', $tag);
+        return new BlockBalise('footer', $attr);
     }
 
-    public static function create_li(?string $name, array $tag = []): BlockBalise
+    public static function create_li(?string $name, array $attr = []): BlockBalise
     {
-        return new BlockBalise('li', $tag, array($name));
+        return new BlockBalise('li', $attr, array(self::create_string($name)));
     }
 
-    public static function make_li(array $tag = []): BlockBalise
+    public static function make_li(array $attr = []): BlockBalise
     {
-        return new BlockBalise('li', $tag);
+        return new BlockBalise('li', $attr);
     }
 
-    public static function create_h(int $level, string $name, array $tag = []): InlineBalise
+    public static function create_h(int $level, string $name, array $attr = []): InlineBalise
     {
-        return new InlineBalise('h'.$level, $tag, array($name));
+        return new InlineBalise('h'.$level, $attr, array(self::create_string($name)));
     }
 
-    public static function create_img(array $tag = []): InlineBalise
+    public static function create_img(array $attr = []): InlineBalise
     {
-        return new InlineBalise('img', $tag);
+        return new InlineBalise('img', $attr);
     }
 
-    public static function create_pre(string $texte, array $tag = []): InlineBalise
+    public static function create_pre(string $texte, array $attr = []): InlineBalise
     {
-        return new InlineBalise('pre', $tag, array($texte));
+        return new InlineBalise('pre', $attr, array(self::create_string($texte)));
     }
 
     public static function create_strong(string $texte): InlineBalise
     {
-        return new InlineBalise('strong', null, array($texte));
+        return new InlineBalise('strong', null, array(self::create_string($texte)));
     }
 
-    public static function make_button(array $tag = []): InlineBalise
+    public static function make_button(array $attr = []): BlockBaliseNotEmpty
     {
-        return new InlineBalise('button', $tag, array());
+        return new BlockBaliseNotEmpty('button', $attr, array());
     }
 
-    public static function make_link(string $name, array $tag = []): InlineBalise
+    public static function make_link(string $name, array $attr = []): InlineBalise
     {
-        return new InlineBalise('a', $tag, array($name));
+        return new InlineBalise('a', $attr, array(self::create_string($name)));
     }
 
-    public static function make_span(array $tag = []): InlineBalise
+    public static function make_span(array $attr = []): InlineBalise
     {
-        return new InlineBalise('span', $tag);
+        return new InlineBalise('span', $attr);
     }
 
-    public static function make_h(int $level, array $tag = []): InlineBalise
+    public static function make_h(int $level, array $attr = []): InlineBalise
     {
-        return new InlineBalise('h'.$level, $tag);
+        return new InlineBalise('h'.$level, $attr);
     }
 
-    public static function make_p(array $tag = []): InlineBalise
+    public static function make_p(array $attr = []): InlineBalise
     {
-        return new InlineBalise('p', $tag);
+        return new InlineBalise('p', $attr);
     }
 
-    public static function create_ul(array $tag = []): BlockBalise
+    public static function create_ul(array $attr = []): BlockBalise
     {
-        return new BlockBalise('ul', $tag);
+        return new BlockBalise('ul', $attr);
     }
 
-    public static function create_ol(array $tag = []): BlockBalise
+    public static function create_ol(array $attr = []): BlockBalise
     {
-        return new BlockBalise('ol', $tag);
+        return new BlockBalise('ol', $attr);
     }
 
-    public static function create_lengend(string $name, array $tag = []): InlineBalise
+    public static function create_lengend(string $name, array $attr = []): InlineBalise
     {
-        return new InlineBalise('legend', $tag, array($name));
+        return new InlineBalise('legend', $attr, array($name));
     }
 
-    public static function create_fieldset(array $tag = []): BlockBalise
+    public static function create_fieldset(array $attr = []): BlockBalise
     {
-        return new BlockBalise('fieldset', $tag);
+        return new BlockBalise('fieldset', $attr);
     }
 
-    public static function make_a($tag = null):InlineBalise
+    public static function make_a($attr = null):InlineBaliseNotEmpty
     {
-        return new InlineBalise('a', $tag);
+        return new InlineBaliseNotEmpty('a', $attr);
     }
 
-    public static function create_head(array $tag = [], array $child = []): BlockBaliseNotEmpty
+    public static function create_head(array $attr = [], array $child = []): BlockBaliseNotEmpty
     {
-        return new BlockBaliseNotEmpty('head', $tag, $child);
+        return new BlockBaliseNotEmpty('head', $attr, $child);
     }
 
-    public static function create_body(array $tag = [], array $child = []): BlockBaliseNotEmpty
+    public static function create_body(array $attr = [], array $child = []): BlockBaliseNotEmpty
     {
-        return new BlockBaliseNotEmpty('body', $tag, $child);
+        return new BlockBaliseNotEmpty('body', $attr, $child);
     }
 }
