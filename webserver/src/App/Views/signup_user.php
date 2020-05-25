@@ -1,5 +1,5 @@
 <div class="jumbotron">
-    <form method="post" action="<?php echo base_url('/User/signup');?>">
+    <form method="post" action="<?php echo base_url('/User/signup');?>" id="signup_form">
         <?php if(isset($message)) {
             ?>
             <div class="alert alert-danger" role="alert">

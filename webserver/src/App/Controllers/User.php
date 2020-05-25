@@ -21,26 +21,31 @@ class User extends BaseController
 
     public function signup()
     {
-        if(isset($_POST['username'], $_POST['password'], $_POST['email'])) {
-            $email = $_POST['email'];
-            if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $userModel = model('App\Models\User');
-                $userModel->insert([
-                    'identifiant' => $_POST['username'],
-                    'email' => $email,
-                    'hashpassword' => password_hash($_POST['password'], PASSWORD_DEFAULT)
-                ]);
+        $email = $this->request->getPost('email', FILTER_VALIDATE_EMAIL);
+        $password = $this->request->getPost('password');
+        $username = $this->request->getPost('username');
+        if(isset($email, $username, $password)) {
+            $userModel = model('App\Models\User');
+            if($userModel->insert([
+                'identifiant' => $username,
+                'email' => $email,
+                'hashpassword' => password_hash($password, PASSWORD_DEFAULT)
+            ])) {
                 if($this->request->isAJAX()) {
                     header('Content-Type: application/json');
                     echo json_encode(true);
                     die;
                 }
-                header('Location: '.site_url());
-                die;
+                echo view('header_html', ['title' => 'Inscription']);
+                echo view('header_common_import', ['cache' => 60]);
+                echo view('start_body', ['cache' => 60]);
+                echo view('common_navbar_view');
+                echo view('signup_success');
+                echo view('footer_common_import', ['cache' => 60]);
+                echo view('bottom_html', ['cache' => 60]);
+                return;
             }
-            else {
-                $message = 'email invalid';
-            }
+            $message = 'invalid data';
         }
         if($this->request->isAJAX()) {
             header('Content-Type: application/json');
@@ -53,10 +58,11 @@ class User extends BaseController
         echo view('common_navbar_view');
         echo view('signup_user', [
             'message' => $message ?? null,
-            'email' => _POST['email'] ?? null,
-            'username' => $_POST['username'] ?? null
+            'email' => $email,
+            'username' => $username
         ]);
         echo view('footer_common_import', ['cache' => 60]);
+        ?><script src="<?php echo base_url('js/login.js')?>"></script><?php
         echo view('bottom_html', ['cache' => 60]);
     }
 
