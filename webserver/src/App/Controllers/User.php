@@ -26,12 +26,22 @@ class User extends BaseController
         $password = $this->request->getPost('password');
         $username = $this->request->getPost('username');
         if(isset($email, $username, $password)) {
-            $userModel = model('App\Models\User');
+            $db = \Config\Database::connect();
+            $userModel = model('App\Models\User', true, $db);
+            $tokenModel = model('App\Models\TokenService', true, $db);
             if($userModel->insert([
                 'identifiant' => $username,
                 'email' => $email,
                 'hashpassword' => password_hash($password, PASSWORD_DEFAULT)
             ])) {
+                $token = md5(uniqid(mt_rand(), true));
+
+                $tokenModel->insert([
+                    'token' => $token,
+                    'id_user' => $db->insertID(),
+                    'service' => \App\Models\TokenService::LOGIN
+                ]);
+
                 if($this->request->isAJAX()) {
                     header('Content-Type: application/json');
                     echo json_encode(true);
