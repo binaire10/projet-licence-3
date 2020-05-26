@@ -70,18 +70,12 @@ namespace App\Helpers\Misc\Navigation {
                     is_null($navigationItem->getId()) ? [
                             'class' => 'nav-link',
                             'href' => $navigationItem->getUrl(),
-                            'role' => 'button',
-                            'data-toggle' => 'dropdown',
-                            'aria-haspopup' => 'true',
-                            'aria-expanded' => 'false'
+                            'role' => 'button'
                         ] : [
                             'class' => 'nav-link',
                             'id' => $navigationItem->getId(),
                             'href' => $navigationItem->getUrl(),
-                            'role' => 'button',
-                            'data-toggle' => 'dropdown',
-                            'aria-haspopup' => 'true',
-                            'aria-expanded' => 'false'
+                            'role' => 'button'
                         ]
                 )
             );
