@@ -53,12 +53,13 @@ $safeHeader[] = BaliseBlockBuilder::create_link(array(
         'integrity' => 'sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr',
         'crossorigin'=>'anonymous')
 );
-BaliseBlockBuilder::create_link(array('href' => '/css/main.css', 'rel' => 'stylesheet'))->accept($out);
+$safeHeader[] = BaliseBlockBuilder::create_link(array('href' => '/css/main.css', 'rel' => 'stylesheet'));
 $compiler = new \App\Helpers\Misc\Navigation\Bootstrap4Convert();
 \App\Views\NavBar::getInstance()->getBar()->accept($compiler);
 ?><!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- safe header -->
 <?php
     foreach ($safeHeader as $balise)
         $balise->accept($out);
@@ -66,9 +67,37 @@ $compiler = new \App\Helpers\Misc\Navigation\Bootstrap4Convert();
     <title><?= $title?>></title>
 </head>
 <body>
+    <!-- navbar -->
 <?php $compiler->getRoot()->accept($out);?>
+    <!-- content -->
 <?= $this->renderSection('content')?>
-    <script onerror="jqueryFail()" src="//code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script><script onerror="jqueryUiFail()" src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha384-Dziy8F2VlJQLMShA6FHWNul/veM9bCkRUaLqr199K94ntO5QUrLJBEbYegdSkkqX" crossorigin="anonymous"></script><script onerror="popperFail()" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script><script onerror="boostrapJSFail()" src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<?= $this->renderSection('script') ?>
+    <!-- javascript -->
+    <?php
+    BaliseBlockBuilder::create_script([
+            'onerror'=>'jqueryFail()',
+        'src' => '//code.jquery.com/jquery-3.3.1.min.js',
+        'integrity'=>'sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT',
+        'crossorigin'=>'anonymous'
+    ])->accept($out);
+    BaliseBlockBuilder::create_script([
+            'onerror'=>'jqueryUiFail()',
+        'src' => '//code.jquery.com/ui/1.12.1/jquery-ui.min.js',
+        'integrity'=>'sha384-Dziy8F2VlJQLMShA6FHWNul/veM9bCkRUaLqr199K94ntO5QUrLJBEbYegdSkkqX',
+        'crossorigin'=>'anonymous'
+    ])->accept($out);
+    BaliseBlockBuilder::create_script([
+            'onerror'=>'popperFail()',
+        'src'=>'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js',
+        'integrity'=>'sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q',
+        'crossorigin'=>'anonymous'
+    ])->accept($out);
+    BaliseBlockBuilder::create_script([
+            'onerror'=>'boostrapJSFail()',
+        'src'=>'//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js',
+        'integrity'=>'sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl',
+        'crossorigin'=>'anonymous'
+    ])->accept($out);
+        ?>
+    <?= $this->renderSection('script') ?>
 </body>
 </html>
