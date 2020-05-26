@@ -64,7 +64,7 @@ $compiler = new \App\Helpers\Misc\Navigation\Bootstrap4Convert();
     foreach ($safeHeader as $balise)
         $balise->accept($out);
     ?>
-    <title><?= $title?>></title>
+    <title><?= $title?></title>
 </head>
 <body>
     <!-- navbar -->
