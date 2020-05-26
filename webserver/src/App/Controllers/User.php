@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 
 
+use App\Views\NavBar;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\IncomingRequest;
 
@@ -57,6 +58,8 @@ class User extends BaseController
             echo json_encode(false);
             die;
         }
+        $nav_bar = NavBar::getInstance()->getBar();
+        $nav_bar->addLink("Connexion", '#');
         return view('signup_page', [
             'title' => 'Inscription',
             'message' => $message ?? null,
