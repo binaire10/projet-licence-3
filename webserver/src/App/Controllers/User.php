@@ -154,6 +154,19 @@ class User extends BaseController
                     ->where('id', $user[0]->id)
                     ->update();
             }
+            if($this->request->isAJAX()) {
+                $result = new \stdClass();
+                $result->ok = empty($message);
+                $result->message = $message;
+                header('Content-Type: application/json');
+                echo json_encode($result);
+                die;
+            }
+        }
+        if($this->request->isAJAX()) {
+            header('Content-Type: application/json');
+            echo json_encode(false);
+            die;
         }
 
         return view('profile_view', [

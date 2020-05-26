@@ -14,6 +14,8 @@ namespace App\Controllers;
  * @package CodeIgniter
  */
 
+use App\Helpers\BaliseBlockBuilder;
+use App\Views\NavBar;
 use CodeIgniter\Controller;
 
 class BaseController extends Controller
@@ -42,6 +44,32 @@ class BaseController extends Controller
 		//--------------------------------------------------------------------
 		// E.g.:
 		 $this->session = \Config\Services::session();
+
+        if($this->session->has('user')) {
+            NavBar::getInstance()->getBar()->addOutsideBalise(
+                BaliseBlockBuilder::create_ul([
+                    'class' => 'nav navbar-nav navbar-right'
+                ])->addContent(
+                    BaliseBlockBuilder::make_li()->addContent(
+                        BaliseBlockBuilder::create_form([
+                            'action' => base_url('User/signout')
+                        ])->addContent(
+                            BaliseBlockBuilder::make_button([
+                                'class' => 'btn btn-link nav-link'
+                            ])->addContent(
+                                BaliseBlockBuilder::make_i([
+                                    'class' => 'fa fa-sign-out-alt',
+//                                    'aria-hidden' => 'true'
+                                ])
+                            )
+                        )
+                    )
+                )
+            );
+        }
+        else {
+
+        }
 	}
 
 }

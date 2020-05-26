@@ -184,9 +184,9 @@ class BaliseBlockBuilder
         return new InlineBalise('i', $attr, array(self::create_string($name)));
     }
 
-    public static function make_i(array $attr = []): InlineBalise
+    public static function make_i(array $attr = []): InlineBaliseNotEmpty
     {
-        return new InlineBalise('i', $attr);
+        return new InlineBaliseNotEmpty('i', $attr);
     }
 
     public static function create_header(array $attr = []): BlockBalise

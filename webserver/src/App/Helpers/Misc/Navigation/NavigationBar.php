@@ -97,7 +97,7 @@ class NavigationBar implements NavigationItem
         return $this->navigationRoot[] = new BaliseAdaptatorNavItem($balise);
     }
 
-    public function addOutsideBalise(Balise $balise): BaliseAdaptatorNavItem {
+    public function addOutsideBalise(Balise $balise): Balise {
         return $this->outside[] = $balise;
     }
 }
