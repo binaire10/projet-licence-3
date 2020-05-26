@@ -47,26 +47,30 @@ class Service extends BaseController
                 echo json_encode($result);
                 return;
             }
-            $userTable->select('*');
+            $query = $userTable
+                ->select('*')
+                ->where('identifiant', $username)->get();
+            $user = $query->getResult();
+            var_dump($user);
             $this->session->set('user', );
         }
     }
 
-    private function verifyAccountToken($user, BaseBuilder $builder): bool {
+    public static function verifyAccountToken($user, BaseBuilder $builder): bool {
         $builder->select('1');
         $builder->where('id_user', $user);
         $builder->where('service', \App\Models\TokenService::LOGIN);
         return $builder->countAllResults() === 0;
     }
 
-    private function verifyTokenExist(string $token, int $service, BaseBuilder $builder): bool {
+    public static function verifyTokenExist(string $token, int $service, BaseBuilder $builder): bool {
         $builder->select('1');
         $builder->where('token', $token);
         $builder->where('service', $service);
         return $builder->countAllResults() === 1;
     }
 
-    private function deleteToken(string $token, int $service, BaseBuilder $builder): bool {
+    public static function deleteToken(string $token, int $service, BaseBuilder $builder): bool {
         $builder->select('1');
         $builder->where('token', $token);
         $builder->where('service', $service);

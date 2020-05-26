@@ -7,20 +7,9 @@ namespace App\Controllers;
 
 use App\Views\NavBar;
 use CodeIgniter\Exceptions\PageNotFoundException;
-use CodeIgniter\HTTP\IncomingRequest;
 
 class User extends BaseController
 {
-    public function index()
-    {
-        echo view('header_html', ['title' => 'Connexion']);
-        echo view('header_common_import', ['cache' => 60]);
-        echo view('start_body', ['cache' => 60]);
-        echo view('common_navbar_view');
-        echo view('footer_common_import', ['cache' => 60]);
-        echo view('bottom_html', ['cache' => 60]);
-    }
-
     public function signup()
     {
         force_https();
@@ -44,6 +33,8 @@ class User extends BaseController
                     'service' => \App\Models\TokenService::LOGIN
                 ]);
 
+                //TODO: send mail with link to confirm account
+
                 if($this->request->isAJAX()) {
                     header('Content-Type: application/json');
                     echo json_encode(true);
@@ -59,7 +50,8 @@ class User extends BaseController
             die;
         }
         $nav_bar = NavBar::getInstance()->getBar();
-        $nav_bar->addLink("Connexion", '#');
+        $nav_bar->addLink("Connexion", base_url('User/signin'));
+        $nav_bar->addLink("Inscription", base_url('User/signup'));
         return view('signup_page', [
             'title' => 'Inscription',
             'message' => $message ?? null,
@@ -72,5 +64,67 @@ class User extends BaseController
         if($this->session->has('user'))
             throw new PageNotFoundException();
 
+        $password = $this->request->getPost('password');
+        $username = $this->request->getPost('username');
+        $message = null;
+
+        if(isset($username, $password)) {
+            $db = \Config\Database::connect();
+            $result = $db->table('Utilisateur')
+                ->select('*')
+                ->where('identifiant', $username)
+                ->get();
+            $user = $result->getResult();
+            if(empty($user) || !password_verify($password, $user[0]->hashpassword)) {
+                $message = 'user or password invalid';
+            }
+            else {
+                $this->session->set('user', $user[0]->id);
+                if($this->request->isAJAX()) {
+                    header('Content-Type: application/json');
+                    echo json_encode(true);
+                    die;
+                }
+                header('Location: '.base_url(''));
+                die;
+            }
+        }
+
+        if($this->request->isAJAX()) {
+            header('Content-Type: application/json');
+            echo json_encode(false);
+            die;
+        }
+
+
+        $nav_bar = NavBar::getInstance()->getBar();
+        $nav_bar->addLink("Connexion", base_url('User/signin'));
+        $nav_bar->addLink("Inscription", base_url('User/signup'));
+
+        return view('signin', ['title' => 'Connexion', 'message' => $message]);
+    }
+
+    public function signout() {
+        if(!$this->session->has('user'))
+            throw new PageNotFoundException();
+        // source : https://www.php.net/manual/fr/function.session-destroy.php
+        // Détruit toutes les variables de session
+        $_SESSION = array();
+
+        // Si vous voulez détruire complètement la session, effacez également
+        // le cookie de session.
+        // Note : cela détruira la session et pas seulement les données de session !
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+
+        // Finalement, on détruit la session.
+        session_destroy();
+        header('Location: '.base_url('/'));
+        die;
     }
 }
