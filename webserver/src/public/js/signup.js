@@ -7,6 +7,7 @@ $(document).ready(function () {
 
     let submitForm = function () {
         let current = $(this);
+        current.find('input[type="submit"]').prop("disabled", true);
         $.ajax({
             url: current.attr('action'),
             method: current.attr('method'),
@@ -33,6 +34,8 @@ $(document).ready(function () {
                 form.append(modal);
                 modal.modal('show')
             }
+            else
+                current.find('input[type="submit"]').prop("disabled", false);
         }).fail(failCase);
         return false;
     };
