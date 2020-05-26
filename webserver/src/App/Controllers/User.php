@@ -50,9 +50,6 @@ class User extends BaseController
             echo json_encode(false);
             die;
         }
-        $nav_bar = NavBar::getInstance()->getBar();
-        $nav_bar->addLink("Connexion", base_url('User/signin'));
-        $nav_bar->addLink("Inscription", base_url('User/signup'));
         return view('signup_page', [
             'title' => 'Inscription',
             'message' => $message ?? null,
@@ -96,11 +93,6 @@ class User extends BaseController
             echo json_encode(false);
             die;
         }
-
-
-        $nav_bar = NavBar::getInstance()->getBar();
-        $nav_bar->addLink("Connexion", base_url('User/signin'));
-        $nav_bar->addLink("Inscription", base_url('User/signup'));
 
         return view('signin', ['title' => 'Connexion', 'message' => $message]);
     }

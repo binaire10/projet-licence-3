@@ -68,7 +68,9 @@ class BaseController extends Controller
             );
         }
         else {
-
+            $nav_bar = NavBar::getInstance()->getBar();
+            $nav_bar->addLink("Connexion", base_url('User/signin'));
+            $nav_bar->addLink("Inscription", base_url('User/signup'));
         }
 	}
 
