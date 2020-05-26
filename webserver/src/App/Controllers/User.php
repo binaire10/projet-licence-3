@@ -7,6 +7,7 @@ namespace App\Controllers;
 
 use App\Views\NavBar;
 use CodeIgniter\Exceptions\PageNotFoundException;
+use CodeIgniter\Router\Exceptions\RedirectException;
 
 class User extends BaseController
 {
@@ -126,5 +127,41 @@ class User extends BaseController
         session_destroy();
         header('Location: '.base_url('/'));
         die;
+    }
+
+    public function profile() {
+        if(!$this->session->has('user'))
+            throw new PageNotFoundException();
+        $db = \Config\Database::connect();
+        $user = $db->table('Utilisateur')
+            ->select('*')
+            ->where('id', $this->session->get('user'))
+            ->get()->getResult();
+        if(empty($user))
+            throw new PageNotFoundException();
+        $message = null;
+
+        $password = $this->request->getPost('password');
+        $username = $this->request->getPost('username');
+
+        if(isset($password)) {
+            if (isset($username) && $user[0]->identifiant !== $username) {
+                $message = 'invalid username';
+            } else {
+                $user[0]->hashpassword = password_hash($password, PASSWORD_DEFAULT);
+                $db->table('Utilisateur')
+                    ->set('hashpassword', $user[0]->hashpassword)
+                    ->where('id', $user[0]->id)
+                    ->update();
+            }
+        }
+
+        return view('profile_view', [
+            'title' => 'My profile',
+            'username' => $user[0]->identifiant,
+            'action' => base_url('User/profile'),
+            'id' => 'user_profile',
+            'message' => $message
+        ]);
     }
 }
