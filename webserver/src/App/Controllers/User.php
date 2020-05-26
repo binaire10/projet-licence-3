@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 
 
+use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\IncomingRequest;
 
 class User extends BaseController
@@ -47,14 +48,7 @@ class User extends BaseController
                     echo json_encode(true);
                     die;
                 }
-                echo view('header_html', ['title' => 'Inscription']);
-                echo view('header_common_import', ['cache' => 60]);
-                echo view('start_body', ['cache' => 60]);
-                echo view('common_navbar_view');
-                echo view('signup_success');
-                echo view('footer_common_import', ['cache' => 60]);
-                echo view('bottom_html', ['cache' => 60]);
-                return;
+                return view('signup_success', ['title' => 'Inscription']);
             }
             $message = 'invalid data';
         }
@@ -63,18 +57,17 @@ class User extends BaseController
             echo json_encode(false);
             die;
         }
-        echo view('header_html', ['title' => 'Inscription']);
-        echo view('header_common_import', ['cache' => 60]);
-        echo view('start_body', ['cache' => 60]);
-        echo view('common_navbar_view');
-        echo view('signup_user', [
+        return view('signup_page', [
+            'title' => 'Inscription',
             'message' => $message ?? null,
             'email' => $email,
             'username' => $username
         ]);
-        echo view('footer_common_import', ['cache' => 60]);
-        ?><script src="<?php echo base_url('js/signup.js')?>"></script><?php
-        echo view('bottom_html', ['cache' => 60]);
     }
 
+    public function signin() {
+        if($this->session->has('user'))
+            throw new PageNotFoundException();
+
+    }
 }
