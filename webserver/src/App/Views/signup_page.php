@@ -11,7 +11,7 @@ $this->extend('default_page'); ?>
         } ?>
         <div class="input-group mb-2">
             <div class="input-group-prepend">
-                <div class="input-group-text">@</div>
+                <div class="input-group-text"><i class="fas fa-user"></i></div>
             </div>
             <input type="text" name="username" class="form-control" placeholder="Username" <?php if(isset($username)) echo 'value="', $username, '" ';?>/>
         </div>
