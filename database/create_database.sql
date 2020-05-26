@@ -38,6 +38,7 @@ CREATE TABLE `Livre` (
                          `cote` VARCHAR(255) NOT NULL,
                          `titre` VARCHAR(255) NOT NULL,
                          `resumer` TEXT NOT NULL,
+                         `image_type` VARCHAR(255) NOT NULL,
                          `image` BLOB NOT NULL,
                          `format` VARCHAR(255) NOT NULL,
                          PRIMARY KEY(`id`)
