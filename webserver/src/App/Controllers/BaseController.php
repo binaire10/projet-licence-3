@@ -45,8 +45,14 @@ class BaseController extends Controller
 		// E.g.:
 		 $this->session = \Config\Services::session();
 
+		 if(!$this->request->isAJAX())
+		     self::init_web();
+	}
+
+	protected function init_web() {
         if($this->session->has('user')) {
-            NavBar::getInstance()->getBar()->addOutsideBalise(
+            $nav_bar = NavBar::getInstance()->getBar();
+            $nav_bar->addOutsideBalise(
                 BaliseBlockBuilder::create_ul([
                     'class' => 'nav navbar-nav navbar-right'
                 ])->addContent(
@@ -66,12 +72,13 @@ class BaseController extends Controller
                     )
                 )
             );
+            $account_item = $nav_bar->addMenu('Account');
+            $account_item->addLink('Profile', base_url('User/profile'));
         }
         else {
             $nav_bar = NavBar::getInstance()->getBar();
             $nav_bar->addLink("Connexion", base_url('User/signin'));
             $nav_bar->addLink("Inscription", base_url('User/signup'));
         }
-	}
-
+    }
 }
