@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 
 use CodeIgniter\Database\BaseBuilder;
+use CodeIgniter\Database\BaseConnection;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use stdClass;
 
@@ -18,7 +19,8 @@ class Service extends BaseController
         switch ($service) {
             case \App\Models\TokenService::LOGIN:
                 if($this->verifyTokenExist($token, $service, $tokenTable)) {
-                    $this->deleteToken($token, $service, $tokenTable);
+                    if(!$this->deleteToken($token, $service, $tokenTable, $db))
+                        throw new PageNotFoundException();
                     header('Location: '.base_url('/'));
                     die;
                 }
@@ -70,11 +72,11 @@ class Service extends BaseController
         return $builder->countAllResults() === 1;
     }
 
-    public static function deleteToken(string $token, int $service, BaseBuilder $builder): bool {
+    public static function deleteToken(string $token, int $service, BaseBuilder $builder, BaseConnection $base): bool {
         $builder->select('1');
         $builder->where('token', $token);
         $builder->where('service', $service);
         $builder->delete();
-        return true; // TODO: test if delete is success
+        return $base->affectedRows() > 0;
     }
 }
