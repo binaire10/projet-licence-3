@@ -32,5 +32,5 @@ $this->extend('default_page'); ?>
 </div>
 <?= $this->endSection() ?>
 <?= $this->section('script') ?>
-<script src="<?php base_url('js/signup.js');?>"></script>
+<script src="<?= base_url('js/signup.js') ?>"></script>
 <?= $this->endSection() ?>

@@ -11,7 +11,8 @@ $(document).ready(function () {
         $.ajax({
             url: current.attr('action'),
             method: current.attr('method'),
-            data: current.serialize()
+            data: current.serialize(),
+            headers: {'X-Requested-With': 'XMLHttpRequest'}
         }).done(function (data) {
             if(data) {
                 let modal = $('<div class="modal" tabindex="-1" role="dialog"/>');
