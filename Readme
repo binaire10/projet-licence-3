@@ -2,7 +2,9 @@
 
 avec docker
 ```
-docker-compose -f docker-compose.yml up -d```
+docker-compose -f docker-compose.yml up -d
+se connecter sur phpmyadmin (localhost:8000) et executé le script dans le repertoire database
+```
 
 pour stoper le projet
 
