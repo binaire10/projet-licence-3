@@ -55,7 +55,7 @@ class Service extends BaseController
                 ->select('*')
                 ->where('identifiant', $username)->get();
             $user = $query->getResult();
-            if(empty($user)) {
+            if(empty($user) || !password_verify($password, $user[0]['hashpassword'])) {
                 $result->ok = false;
                 echo json_encode($result);
                 return;
@@ -71,11 +71,16 @@ class Service extends BaseController
         $query = $userTable
             ->select('*')
             ->where('identifiant', $username)->get();
-        $user = $query->getResult();
-        if(empty($user))
-            throw new PageNotFoundException();
-        $this->session->set('user', $user['id']);
+        $user = $query->getResultArray();
+
+        if(empty($user) || !password_verify($password, $user[0]['hashpassword'])) {
+            header('Location: '.base_url('User/signin'));
+            die;
+        }
+
+        $this->session->set('user', $user[0]['id']);
         header('Location: '.base_url());
+        die;
     }
 
     public static function verifyAccountToken($user, BaseBuilder $builder): bool {

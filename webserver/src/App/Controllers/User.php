@@ -81,15 +81,6 @@ class User extends BaseController
         $username = $this->request->getPost('username');
         $message = null;
 
-        if(isset($username, $password)) {
-            $db = \Config\Database::connect();
-            $result = $db->table('Utilisateur')
-                ->select('*')
-                ->where('identifiant', $username)
-                ->get();
-            $user = $result->getResult();
-        }
-
         if($this->request->isAJAX()) {
             header('Content-Type: application/json');
             echo json_encode(false);
