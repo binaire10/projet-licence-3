@@ -49,9 +49,9 @@ class BaseController extends Controller
 
         if($this->session->has('user')) {
             $db = \Config\Database::connect();
-            $bUser = $db->table('Bibliothecaire')->select('*')->where('id', $this->session->get('user'))->get()->getResultArray();
+            $this->bUser = $db->table('Bibliothecaire')->select('*')->where('id', $this->session->get('user'))->get()->getResultArray();
             $this->isUser = true;
-            $this->isLibrarian = !empty($bUser);
+            $this->isLibrarian = !empty($this->bUser);
         }
         else {
             $this->isUser = false;
@@ -100,6 +100,8 @@ class BaseController extends Controller
             $bookMenu->addLink('List', base_url('Book'));
             $authorMenu = $nav_bar->addMenu('Author');
             $authorMenu->addLink('New', base_url('Author/add'));
+            $bibliothecaireMenu = $nav_bar->addMenu('Adherents');
+            $bibliothecaireMenu->addLink('Validate adhérents', base_url('Adherents/futursAdherents'));
         }
         else {
             $bookMenu = $nav_bar->addMenu('Book');
