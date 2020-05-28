@@ -65,14 +65,13 @@ CREATE TABLE `HistoriqueEmprunt` (
 );
 
 CREATE TABLE `EmpruntCourant` (
-                                  `id` int NOT NULL AUTO_INCREMENT,
+                                  `id` int NOT NULL,
                                   `id_exemplaire` int NOT NULL,
                                   `id_livre` int NOT NULL,
-                                  `id_emprunt` int NOT NULL,
                                   `id_user` int NOT NULL,
                                   `date_debut` int NOT NULL,
                                   PRIMARY KEY(`id`),
-                                  FOREIGN KEY (`id_emprunt`) REFERENCES `HistoriqueEmprunt`(`id`),
+                                  FOREIGN KEY (`id`) REFERENCES `HistoriqueEmprunt`(`id`),
                                   FOREIGN KEY (`id_exemplaire`, `id_livre`) REFERENCES `Exemplaire`(`id`, `id_livre`),
                                   FOREIGN KEY (`id_user`) REFERENCES `Utilisateur`(`id`)
 );
@@ -99,4 +98,13 @@ CREATE TABLE `A_ECRIT` (
                           PRIMARY KEY (`id_auteur`, `id_livre`),
                           FOREIGN KEY (`id_auteur`) REFERENCES `Auteur`(`id`),
                           FOREIGN KEY (`id_livre`) REFERENCES `Livre`(`id`)
+);
+
+CREATE TABLE `ListeEmprunt` (
+                                  `id_livre` int NOT NULL,
+                                  `id_user` int NOT NULL,
+                                  `date_demande` DATE NOT NULL,
+                                  PRIMARY KEY(`id_livre`, `id_user`),
+                                  FOREIGN KEY (`id_livre`) REFERENCES `Livre`(`id`),
+                                  FOREIGN KEY (`id_user`) REFERENCES `Utilisateur`(`id`)
 );
