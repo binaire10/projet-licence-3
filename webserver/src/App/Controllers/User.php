@@ -59,7 +59,7 @@ class User extends BaseController
     }
 
     public function signin() {
-        if($this->session->has('user'))
+        if($this->isUser)
             throw new PageNotFoundException();
 
         $password = $this->request->getPost('password');
@@ -98,7 +98,7 @@ class User extends BaseController
     }
 
     public function signout() {
-        if(!$this->session->has('user'))
+        if(!$this->isUser)
             throw new PageNotFoundException();
         // source : https://www.php.net/manual/fr/function.session-destroy.php
         // Détruit toutes les variables de session
@@ -122,7 +122,7 @@ class User extends BaseController
     }
 
     public function profile() {
-        if(!$this->session->has('user'))
+        if(!$this->isUser)
             throw new PageNotFoundException();
         $db = \Config\Database::connect();
         $user = $db->table('Utilisateur')

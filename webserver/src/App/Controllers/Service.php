@@ -33,6 +33,8 @@ class Service extends BaseController
     }
 
     public function connect() {
+        if($this->isUser)
+            throw new PageNotFoundException();
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
 

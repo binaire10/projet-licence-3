@@ -4,6 +4,8 @@
 namespace App\Controllers;
 
 
+use CodeIgniter\Exceptions\PageNotFoundException;
+
 class Book extends BaseController
 {
     public function index() {
@@ -14,6 +16,8 @@ class Book extends BaseController
         ]);
     }
     public function add() {
+        if(!$this->isLibrarian)
+            throw new PageNotFoundException();
         $authors = $this->request->getPost('authors');
         $title = $this->request->getPost('book_title');
         $cote = $this->request->getPost('book_cote');

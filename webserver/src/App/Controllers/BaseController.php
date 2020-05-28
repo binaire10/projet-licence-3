@@ -30,6 +30,8 @@ class BaseController extends Controller
 	 */
 	protected $helpers = [];
 	protected \CodeIgniter\Session\Session $session;
+	protected bool $isUser;
+	protected bool $isLibrarian;
 
 	/**
 	 * Constructor.
@@ -45,12 +47,23 @@ class BaseController extends Controller
 		// E.g.:
 		 $this->session = \Config\Services::session();
 
+        if($this->session->has('user')) {
+            $db = \Config\Database::connect();
+            $bUser = $db->table('Bibliothecaire')->select('*')->where('id', $this->session->get('user'))->get()->getResultArray();
+            $this->isUser = true;
+            $this->isLibrarian = !empty($bUser);
+        }
+        else {
+            $this->isUser = false;
+            $this->isLibrarian = false;
+        }
+
 		 if(!$this->request->isAJAX())
 		     self::init_web();
 	}
 
 	protected function init_web() {
-        if($this->session->has('user')) {
+        if($this->isUser) {
             $nav_bar = NavBar::getInstance()->getBar();
             $nav_bar->addOutsideBalise(
                 BaliseBlockBuilder::create_ul([
@@ -74,22 +87,21 @@ class BaseController extends Controller
             );
             $account_item = $nav_bar->addMenu('Account');
             $account_item->addLink('Profile', base_url('User/profile'));
-            $db = \Config\Database::connect();
-            $bUser = $db->table('Bibliothecaire')->select('*')->where('id', $this->session->get('user'))->get()->getResultArray();
-            if(!empty($bUser)) {
-                $bookMenu = $nav_bar->addMenu('Book');
-                $bookMenu->addLink('New', base_url('Book/add'));
-                $bookMenu->addLink('List', base_url('Book'));
-            }
-            else {
-                $bookMenu = $nav_bar->addMenu('Book');
-                $bookMenu->addLink('List', base_url('Book'));
-            }
         }
         else {
             $nav_bar = NavBar::getInstance()->getBar();
             $nav_bar->addLink("Connexion", base_url('User/signin'));
             $nav_bar->addLink("Inscription", base_url('User/signup'));
+        }
+
+        if($this->isLibrarian) {
+            $bookMenu = $nav_bar->addMenu('Book');
+            $bookMenu->addLink('New', base_url('Book/add'));
+            $bookMenu->addLink('List', base_url('Book'));
+        }
+        else {
+            $bookMenu = $nav_bar->addMenu('Book');
+            $bookMenu->addLink('List', base_url('Book'));
         }
     }
 }
