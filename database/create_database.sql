@@ -100,7 +100,7 @@ CREATE TABLE `A_ECRIT` (
                           FOREIGN KEY (`id_livre`) REFERENCES `Livre`(`id`)
 );
 
-CREATE TABLE `ListeEmprunt` (
+CREATE TABLE `Reservation` (
                                   `id_livre` int NOT NULL,
                                   `id_user` int NOT NULL,
                                   `date_demande` DATE NOT NULL,
