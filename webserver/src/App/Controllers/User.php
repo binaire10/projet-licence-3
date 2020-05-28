@@ -88,19 +88,6 @@ class User extends BaseController
                 ->where('identifiant', $username)
                 ->get();
             $user = $result->getResult();
-            if(empty($user) || !password_verify($password, $user[0]->hashpassword)) {
-                $message = 'user or password invalid';
-            }
-            else {
-                $this->session->set('user', $user[0]->id);
-                if($this->request->isAJAX()) {
-                    header('Content-Type: application/json');
-                    echo json_encode(true);
-                    die;
-                }
-                header('Location: '.base_url(''));
-                die;
-            }
         }
 
         if($this->request->isAJAX()) {
