@@ -96,10 +96,11 @@ class BaseController extends Controller
 
         if($this->isLibrarian) {
             $bookMenu = $nav_bar->addMenu('Book');
-            $bookMenu->addLink('New', base_url('Book/add'));
             $bookMenu->addLink('List', base_url('Book'));
-            $authorMenu = $nav_bar->addMenu('Author');
-            $authorMenu->addLink('New', base_url('Author/add'));
+            $gestionMenu = $nav_bar->addMenu('Gestion de bibliothèque');
+            $gestionMenu->addLink('Ajout livre', base_url('Book/add'));
+            $gestionMenu->addLink('Ajout auteur', base_url('Author/add'));
+            $gestionMenu->addLink('Emprunt en attente', base_url('Emprunt'));
         }
         else {
             $bookMenu = $nav_bar->addMenu('Book');
