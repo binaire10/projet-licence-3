@@ -11,14 +11,14 @@ $this->extend('default_page'); ?>
                 <?php if(isset($message)) {
                     ?>
                     <div class="alert alert-danger" role="alert">
-                    <?php echo $message;?>
+                    <?= htmlspecialchars($message);?>
                     </div><?
                 } ?>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text"><i class="fas fa-book"></i></div>
                     </div>
-                    <input type="text" name="book_title" class="form-control" placeholder="Title" <?php if(isset($book_title)) echo 'value="', $book_title, '" ';?>/>
+                    <input type="text" name="book_title" class="form-control" placeholder="Title" <?php if(isset($book_title)) echo 'value="', htmlspecialchars($book_title), '" ';?>/>
                 </div>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
@@ -33,19 +33,19 @@ $this->extend('default_page'); ?>
                     <div class="input-group-prepend">
                         <div class="input-group-text">Cote</div>
                     </div>
-                    <input type="text" name="book_cote" class="form-control" placeholder="Cote" <?php if(isset($book_cote)) echo 'value="', $book_cote, '" ';?>/>
+                    <input type="text" name="book_cote" class="form-control" placeholder="Cote" <?php if(isset($book_cote)) echo 'value="', htmlspecialchars($book_cote), '" ';?>/>
                 </div>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text">Summarize</div>
                     </div>
-                    <input type="text" name="book_summarize" class="form-control" placeholder="Cote" <?php if(isset($book_summarize)) echo 'value="', $book_summarize, '" ';?>/>
+                    <input type="text" name="book_summarize" class="form-control" placeholder="Cote" <?php if(isset($book_summarize)) echo 'value="', htmlspecialchars($book_summarize), '" ';?>/>
                 </div>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text">Format</div>
                     </div>
-                    <input type="text" name="book_format" class="form-control" placeholder="Cote" <?php if(isset($book_format)) echo 'value="', $book_format, '" ';?>/>
+                    <input type="text" name="book_format" class="form-control" placeholder="Cote" <?php if(isset($book_format)) echo 'value="', htmlspecialchars($book_format), '" ';?>/>
                 </div>
             </div>
         </div>
@@ -61,8 +61,8 @@ $this->extend('default_page'); ?>
                         foreach ($authors as $author) {
                             ?>
                             <div class="input-group mb-2">
-                                <input type="hidden" name="authors[]" value="<?= $author['id'] ?>"/>
-                                <input type="text" disabled="disabled" class="form-control" value="<?= $author['nom'] ?>">
+                                <input type="hidden" name="authors[]" value="<?= htmlspecialchars($author['id']) ?>"/>
+                                <input type="text" disabled="disabled" class="form-control" value="<?= htmlspecialchars($author['nom']) ?>">
                                 <div class="input-group-append">
                                     <button class="close btn btn-light form-control">&times;</button>
                                 </div>

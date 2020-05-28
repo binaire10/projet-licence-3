@@ -12,7 +12,7 @@ $this->extend('default_page'); ?>
                     <?php if(isset($message)) {
                         ?>
                         <div class="alert alert-danger" role="alert">
-                        <?php echo $message;?>
+                        <?= htmlspecialchars($message);?>
                         </div><?
                     } ?>
                     <div class="input-group mb-2">

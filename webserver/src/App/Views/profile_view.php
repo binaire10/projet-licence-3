@@ -11,11 +11,11 @@ if(!isset($action, $id))
             <?php if(isset($username)) {
                 ?>
                 <div class="card-header">
-                    <h5><?= $username?></h5>
+                    <h5><?= htmlspecialchars($username)?></h5>
                 </div>
             <?php }
             ?><div class="card-body">
-                <form method="post" action="<?= $action?>" id="<?= $id?>">
+                <form method="post" action="<?= htmlspecialchars($action)?>" id="<?= htmlspecialchars($id)?>">
                     <?php if(isset($message)) {
                         ?>
                         <div class="alert alert-danger" role="alert">
@@ -26,7 +26,7 @@ if(!isset($action, $id))
                         <div class="input-group-prepend">
                             <div class="input-group-text"><i class="fas fa-user"></i></div>
                         </div>
-                        <input type="text" name="username" disabled="disabled" class="form-control" placeholder="Username" <?php if(isset($username)) echo 'value="', $username, '" ';?>/>
+                        <input type="text" name="username" disabled="disabled" class="form-control" placeholder="Username" <?php if(isset($username)) echo 'value="', htmlspecialchars($username), '" ';?>/>
                     </div>
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
