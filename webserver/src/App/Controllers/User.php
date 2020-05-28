@@ -36,11 +36,11 @@ class User extends BaseController
 
 
                 $bndary = md5(uniqid(mt_rand()));
-                $headers = 'From: Name <' . 'binaire@alwaysdata.net' . '>' . PHP_EOL;
+                $headers = 'From: noreply <' . 'binaire@alwaysdata.net' . '>' . PHP_EOL;
                 $headers .= 'Return-Path: <' . $email . '>' . "\n";
-                $headers .= 'Content-type: multipart/alternative; boundary="' . $bndary . PHP_EOL;
-                $message_text = 'Lien d\'activation de votre compte : '.base_url('Service/1/'.$token).PHP_EOL;
-                $message_html = 'Lien d\'activation de votre compte : <a href="'.base_url('Service/1/'.$token).'">Activer</a>';
+                $headers .= 'Content-type: multipart/alternative; boundary="' . $bndary .'"'. PHP_EOL;
+                $message_text = 'Lien d\'activation de votre compte : '.base_url('Service/confirm/1/'.$token).PHP_EOL;
+                $message_html = 'Lien d\'activation de votre compte : <a href="'.base_url('Service/confirm/1/'.$token).'">Activer</a>';
 
                 $message = '--' . $bndary . "\n";
                 $message .= 'Content-Type: text/plain; charset=utf-8' . "\n\n";
