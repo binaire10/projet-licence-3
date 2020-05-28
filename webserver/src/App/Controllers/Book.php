@@ -7,13 +7,10 @@ namespace App\Controllers;
 class Book extends BaseController
 {
     public function index() {
-        $books = [];
-        $books[] = $book = new \stdClass();
-        $book->titre = 'magic';
-        $book->resumer = '..................';
+        $db = \Config\Database::connect();
         return view('book_list', [
             'title' => 'Book list',
-            'books' => $books
+            'books' => $db->table('Livre')->select('*')->get()->getResultArray()
         ]);
     }
     public function add() {
@@ -39,6 +36,8 @@ class Book extends BaseController
                     'id_livre' => $bookId
                 ]);
             }
+            header('Location: '.base_url(''));
+            die;
         }
         if(isset($authors)) {
             $db = \Config\Database::connect();

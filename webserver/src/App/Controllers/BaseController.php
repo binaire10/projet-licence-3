@@ -74,6 +74,17 @@ class BaseController extends Controller
             );
             $account_item = $nav_bar->addMenu('Account');
             $account_item->addLink('Profile', base_url('User/profile'));
+            $db = \Config\Database::connect();
+            $bUser = $db->table('Bibliothecaire')->select('*')->where('id', $this->session->get('user'))->get()->getResultArray();
+            if(!empty($bUser)) {
+                $bookMenu = $nav_bar->addMenu('Book');
+                $bookMenu->addLink('New', base_url('Book/add'));
+                $bookMenu->addLink('List', base_url('Book'));
+            }
+            else {
+                $bookMenu = $nav_bar->addMenu('Book');
+                $bookMenu->addLink('List', base_url('Book'));
+            }
         }
         else {
             $nav_bar = NavBar::getInstance()->getBar();

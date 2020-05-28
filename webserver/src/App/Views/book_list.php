@@ -18,19 +18,16 @@ if(!isset($books))
 ?>
 <div class="container mt-2">
     <?php
+    $imageData = '//via.placeholder.com/64';
     foreach ($books as $book) {
-        $imageData = !isset($book->image, $book->image_type) ?
-            '//via.placeholder.com/64'
-            :
-            'data:' . $book->image_type . ';base64, ' . base64_encode($book->image);
         ?>
-        <div class="row">
+        <div class="row mb-2">
             <div class="col-md-12">
                 <div class="media">
                     <img src="<?= $imageData ?>" class="img-thumbnail align-self-start mr-3"/>
                     <div class="media-body">
-                        <h5><?= $book->titre ?></h5>
-                        <pre><?= $book->resumer ?></pre>
+                        <h5><?= $book['titre'] ?></h5>
+                        <pre><?= $book['resumer'] ?></pre>
                     </div>
                 </div>
             </div>

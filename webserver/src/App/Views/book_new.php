@@ -61,8 +61,8 @@ $this->extend('default_page'); ?>
                         foreach ($authors as $author) {
                             ?>
                             <div class="input-group mb-2">
-                                <input type="hidden" name="authors[]" value="<?= $author->id ?>"/>
-                                <input type="text" disabled="disabled" class="form-control" value="<?= $author->nom ?>">
+                                <input type="hidden" name="authors[]" value="<?= $author['id'] ?>"/>
+                                <input type="text" disabled="disabled" class="form-control" value="<?= $author['nom'] ?>">
                                 <div class="input-group-append">
                                     <button class="close btn btn-light form-control">&times;</button>
                                 </div>
