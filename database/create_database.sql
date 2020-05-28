@@ -3,6 +3,7 @@ CREATE TABLE `Utilisateur` (
                                `identifiant` varchar(255) NOT NULL,
                                `email` varchar(255) DEFAULT NULL,
                                `hashpassword` varchar(255) DEFAULT NULL,
+                               `nom` VARCHAR(255),
                                PRIMARY KEY (`id`),
                                UNIQUE (`identifiant`),
                                UNIQUE (`email`)
@@ -19,7 +20,6 @@ CREATE TABLE `Token` (
 
 CREATE TABLE `Adherent` (
                             `id` int NOT NULL,
-                            `nom` VARCHAR(255) NOT NULL,
                             `adresse` VARCHAR(255) NOT NULL,
                             `date_cotisation` DATE,
                             PRIMARY KEY(`id`),
@@ -28,7 +28,6 @@ CREATE TABLE `Adherent` (
 
 CREATE TABLE `Bibliothecaire` (
                                   `id` int NOT NULL ,
-                                  `nom` VARCHAR(255) NOT NULL,
                                   PRIMARY KEY(`id`),
                                   FOREIGN KEY (`id`) REFERENCES `Utilisateur`(`id`)
 );
@@ -100,7 +99,7 @@ CREATE TABLE `A_ECRIT` (
                           FOREIGN KEY (`id_livre`) REFERENCES `Livre`(`id`)
 );
 
-CREATE TABLE `ListeEmprunt` (
+CREATE TABLE `Reservation` (
                                   `id_livre` int NOT NULL,
                                   `id_user` int NOT NULL,
                                   `date_demande` DATE NOT NULL,
