@@ -74,6 +74,7 @@ class User extends BaseController
     }
 
     public function signin() {
+        force_https();
         if($this->isUser)
             throw new PageNotFoundException();
 

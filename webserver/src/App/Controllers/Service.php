@@ -64,16 +64,18 @@ class Service extends BaseController
             echo json_encode($result);
             die;
         }
+        if($this->isUser)
+            throw new PageNotFoundException();
 
-        if(!isset($username, $password) || !$this->verifyAccountToken($username, $tokenTable) || !$this->isUser) {
-            header('Location: '.base_url('User/signin'));
-            die;
-        }
         $query = $userTable
             ->select('*')
             ->where('identifiant', $username)->get();
         $user = $query->getResultArray();
 
+        if(!isset($username, $password) || !$this->verifyAccountToken($user[0]['id'], $tokenTable)) {
+            header('Location: '.base_url('User/signin'));
+            die;
+        }
         if(empty($user) || !password_verify($password, $user[0]['hashpassword'])) {
             header('Location: '.base_url('User/signin'));
             die;
@@ -88,7 +90,8 @@ class Service extends BaseController
         $builder->select('1');
         $builder->where('id_user', $user);
         $builder->where('service', \App\Models\TokenService::LOGIN);
-        return $builder->countAllResults() === 0;
+        $result = $builder->countAllResults();
+        return $result=== 0;
     }
 
     public static function verifyTokenExist(string $token, int $service, BaseBuilder $builder): bool {
