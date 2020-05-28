@@ -8,7 +8,7 @@ $this->extend('default_page'); ?>
                 <h5>Login</h5>
             </div>
             <div class="card-body">
-                <form method="post" action="<?php echo base_url('User/signin');?>" id="signin_form">
+                <form method="post" action="<?php echo base_url('Service/connect');?>" id="signin_form">
                     <?php if(isset($message)) {
                         ?>
                         <div class="alert alert-danger" role="alert">
