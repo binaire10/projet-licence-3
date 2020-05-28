@@ -49,7 +49,7 @@ class Service extends BaseController
             if(!isset($username, $password) || !$this->verifyAccountToken($username, $tokenTable) || !$this->isUser) {
                 $result->ok = false;
                 echo json_encode($result);
-                return;
+                die;
             }
             $query = $userTable
                 ->select('*')
@@ -58,15 +58,16 @@ class Service extends BaseController
             if(empty($user) || !password_verify($password, $user[0]['hashpassword'])) {
                 $result->ok = false;
                 echo json_encode($result);
-                return;
+                die;
             }
             $this->session->set('user', $user['id']);
             echo json_encode($result);
-            return;
+            die;
         }
 
         if(!isset($username, $password) || !$this->verifyAccountToken($username, $tokenTable) || !$this->isUser) {
             header('Location: '.base_url('User/signin'));
+            die;
         }
         $query = $userTable
             ->select('*')
