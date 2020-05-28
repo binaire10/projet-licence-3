@@ -98,6 +98,8 @@ class BaseController extends Controller
             $bookMenu = $nav_bar->addMenu('Book');
             $bookMenu->addLink('New', base_url('Book/add'));
             $bookMenu->addLink('List', base_url('Book'));
+            $authorMenu = $nav_bar->addMenu('Author');
+            $authorMenu->addLink('New', base_url('Author/add'));
         }
         else {
             $bookMenu = $nav_bar->addMenu('Book');

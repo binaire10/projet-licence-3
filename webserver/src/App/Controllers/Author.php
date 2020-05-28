@@ -26,4 +26,29 @@ class Author extends BaseController
         echo json_encode($result);
         die; // prevent codeigniter to send bad content type
     }
+
+    public function add() {
+        if(!$this->isLibrarian)
+            throw new PageNotFoundException();
+        $name = $this->request->getPost('name');
+        $message = null;
+        try {
+            if (isset($name)) {
+                $db = \Config\Database::connect();
+                $db->table('Auteur')->insert([
+                    'nom' => $name
+                ]);
+                return view('author_sucess',[
+                    'title' => 'success to insert'
+                ]);
+            }
+        } catch (\Throwable $exception) {
+            $message = $exception;
+        }
+        return view('author_new', [
+            'title' => 'New Author',
+            'name' => $name,
+            'message' => $message
+        ]);
+    }
 }
