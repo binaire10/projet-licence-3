@@ -65,8 +65,9 @@ class Service extends BaseController
             return;
         }
 
-        if(!isset($username, $password) || !$this->verifyAccountToken($username, $tokenTable) || !$this->isUser)
-            throw new PageNotFoundException();
+        if(!isset($username, $password) || !$this->verifyAccountToken($username, $tokenTable) || !$this->isUser) {
+            header('Location: '.base_url('User/signin'));
+        }
         $query = $userTable
             ->select('*')
             ->where('identifiant', $username)->get();
