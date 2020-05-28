@@ -95,7 +95,7 @@ $this->extend('default_page'); ?>
 </div>
 <?= $this->endSection() ?>
 <?= $this->section('script') ?>
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
         let failCase = function () {
             $('body').html('<h1>Problem de connexion re tenter plus tard. Ou version non à jour du site.</h1>');
