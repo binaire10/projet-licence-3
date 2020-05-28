@@ -35,10 +35,9 @@ class User extends BaseController
                 ]);
 
 
-                $headers = '';
-                $bndary = md5(uniqid(mt_rand()));/*
-                     $headers = 'From: Name <' . 'binaire@alwaysdata.net' . '>' . PHP_EOL;
-                     $headers .= 'Return-Path: <' . $email . '>' . "\n";*/
+                $bndary = md5(uniqid(mt_rand()));
+                $headers = 'From: Name <' . 'binaire@alwaysdata.net' . '>' . PHP_EOL;
+                $headers .= 'Return-Path: <' . $email . '>' . "\n";
                 $headers .= 'Content-type: multipart/alternative; boundary="' . $bndary . PHP_EOL;
                 $message_text = 'Lien d\'activation de votre compte : '.base_url('Service/1/'.$token).PHP_EOL;
                 $message_html = 'Lien d\'activation de votre compte : <a href="'.base_url('Service/1/'.$token).'">Activer</a>';
@@ -50,7 +49,7 @@ class User extends BaseController
                 $message .= 'Content-Type: text/html; charset=utf-8' . "\n\n";
                 $message .= $message_html . "\n\n";
 
-                mail($_POST['E-mail'], 'Activation de votre compte', $message, $headers);
+                mail($email, 'Activation de votre compte', $message, $headers);
 
                 if($this->request->isAJAX()) {
                     header('Content-Type: application/json');
