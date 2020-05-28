@@ -15,6 +15,19 @@ class Book extends BaseController
             'books' => $db->table('Livre')->select('*')->get()->getResultArray()
         ]);
     }
+
+    public function watch(int $id) {
+        $db = \Config\Database::connect();
+        $book = $db->table('Livre')->select('*')->where('id', $id)->get()->getResultArray();
+        if(empty($book))
+            throw new PageNotFoundException();
+        return view('book_view', [
+            'title' => $book[0]['titre'],
+            'book' => $book[0],
+            'authors' => $db->table('Auteur')->select('*')->join('A_ECRIT', 'Auteur.id = A_ECRIT.id_auteur')->where('A_ECRIT.id_livre', $id)->get()->getResultArray()
+        ]);
+    }
+
     public function add() {
         if(!$this->isLibrarian)
             throw new PageNotFoundException();
@@ -56,6 +69,7 @@ class Book extends BaseController
             'book_summarize' => $book_summarize,
             'book_cote' => $cote,
             'book_title' => $title,
+            'url_form' => base_url('Book/add'),
             'authors' => $authors,
         ]);
     }

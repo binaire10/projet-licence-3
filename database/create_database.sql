@@ -3,6 +3,7 @@ CREATE TABLE `Utilisateur` (
                                `identifiant` varchar(255) NOT NULL,
                                `email` varchar(255) DEFAULT NULL,
                                `hashpassword` varchar(255) DEFAULT NULL,
+                               `nom` VARCHAR(255),
                                PRIMARY KEY (`id`),
                                UNIQUE (`identifiant`),
                                UNIQUE (`email`)
@@ -19,7 +20,6 @@ CREATE TABLE `Token` (
 
 CREATE TABLE `Adherent` (
                             `id` int NOT NULL,
-                            `nom` VARCHAR(255) NOT NULL,
                             `adresse` VARCHAR(255) NOT NULL,
                             `date_cotisation` DATE,
                             PRIMARY KEY(`id`),
@@ -28,7 +28,6 @@ CREATE TABLE `Adherent` (
 
 CREATE TABLE `Bibliothecaire` (
                                   `id` int NOT NULL ,
-                                  `nom` VARCHAR(255) NOT NULL,
                                   PRIMARY KEY(`id`),
                                   FOREIGN KEY (`id`) REFERENCES `Utilisateur`(`id`)
 );
@@ -65,14 +64,13 @@ CREATE TABLE `HistoriqueEmprunt` (
 );
 
 CREATE TABLE `EmpruntCourant` (
-                                  `id` int NOT NULL AUTO_INCREMENT,
+                                  `id` int NOT NULL,
                                   `id_exemplaire` int NOT NULL,
                                   `id_livre` int NOT NULL,
-                                  `id_emprunt` int NOT NULL,
                                   `id_user` int NOT NULL,
                                   `date_debut` int NOT NULL,
                                   PRIMARY KEY(`id`),
-                                  FOREIGN KEY (`id_emprunt`) REFERENCES `HistoriqueEmprunt`(`id`),
+                                  FOREIGN KEY (`id`) REFERENCES `HistoriqueEmprunt`(`id`),
                                   FOREIGN KEY (`id_exemplaire`, `id_livre`) REFERENCES `Exemplaire`(`id`, `id_livre`),
                                   FOREIGN KEY (`id_user`) REFERENCES `Utilisateur`(`id`)
 );
@@ -99,4 +97,13 @@ CREATE TABLE `A_ECRIT` (
                           PRIMARY KEY (`id_auteur`, `id_livre`),
                           FOREIGN KEY (`id_auteur`) REFERENCES `Auteur`(`id`),
                           FOREIGN KEY (`id_livre`) REFERENCES `Livre`(`id`)
+);
+
+CREATE TABLE `Reservation` (
+                                  `id_livre` int NOT NULL,
+                                  `id_user` int NOT NULL,
+                                  `date_demande` DATE NOT NULL,
+                                  PRIMARY KEY(`id_livre`, `id_user`),
+                                  FOREIGN KEY (`id_livre`) REFERENCES `Livre`(`id`),
+                                  FOREIGN KEY (`id_user`) REFERENCES `Utilisateur`(`id`)
 );

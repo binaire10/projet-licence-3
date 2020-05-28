@@ -72,11 +72,7 @@ class Service extends BaseController
             ->where('identifiant', $username)->get();
         $user = $query->getResultArray();
 
-        if(!isset($username, $password) || !$this->verifyAccountToken($user[0]['id'], $tokenTable)) {
-            header('Location: '.base_url('User/signin'));
-            die;
-        }
-        if(empty($user) || !password_verify($password, $user[0]['hashpassword'])) {
+        if(empty($user) || !password_verify($password, $user[0]['hashpassword']) || !isset($username, $password) || !$this->verifyAccountToken($user[0]['id'], $tokenTable)) {
             header('Location: '.base_url('User/signin'));
             die;
         }
@@ -91,7 +87,7 @@ class Service extends BaseController
         $builder->where('id_user', $user);
         $builder->where('service', \App\Models\TokenService::LOGIN);
         $result = $builder->countAllResults();
-        return $result=== 0;
+        return $result === 0;
     }
 
     public static function verifyTokenExist(string $token, int $service, BaseBuilder $builder): bool {
