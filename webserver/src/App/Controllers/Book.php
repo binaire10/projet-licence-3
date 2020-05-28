@@ -46,7 +46,9 @@ class Book extends BaseController
         if(isset($authors)) {
             $db = \Config\Database::connect();
             $tableAuthor = $db->table('Auteur');
-            $authors = $tableAuthor->select('*')->whereIn('id', $authors)->get()->getResultArray();
+            $authors = $tableAuthor->select('*')
+                ->whereIn('id', $authors)
+                ->get()->getResultArray();
         }
         return view('book_new', [
             'title' => 'Add book new',

@@ -46,7 +46,7 @@ class Service extends BaseController
             header('Content-Type: application/json');
             $result = new stdClass();
             $result->ok = true;
-            if(!isset($username, $password) && !$this->verifyAccountToken($username, $tokenTable) && !$this->session->has('user')) {
+            if(!isset($username, $password) || !$this->verifyAccountToken($username, $tokenTable) || !$this->isUser) {
                 $result->ok = false;
                 echo json_encode($result);
                 return;
@@ -55,9 +55,26 @@ class Service extends BaseController
                 ->select('*')
                 ->where('identifiant', $username)->get();
             $user = $query->getResult();
-            var_dump($user);
-            $this->session->set('user', );
+            if(empty($user)) {
+                $result->ok = false;
+                echo json_encode($result);
+                return;
+            }
+            $this->session->set('user', $user['id']);
+            echo json_encode($result);
+            return;
         }
+
+        if(!isset($username, $password) || !$this->verifyAccountToken($username, $tokenTable) || !$this->isUser)
+            throw new PageNotFoundException();
+        $query = $userTable
+            ->select('*')
+            ->where('identifiant', $username)->get();
+        $user = $query->getResult();
+        if(empty($user))
+            throw new PageNotFoundException();
+        $this->session->set('user', $user['id']);
+        header('Location: '.base_url());
     }
 
     public static function verifyAccountToken($user, BaseBuilder $builder): bool {
