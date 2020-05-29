@@ -24,6 +24,7 @@ class Book extends BaseController
         return view('book_view', [
             'title' => $book[0]['titre'],
             'book' => $book[0],
+            'canBeEdit' => $this->isLibrarian,
             'authors' => $db->table('Auteur')->select('*')->join('A_ECRIT', 'Auteur.id = A_ECRIT.id_auteur')->where('A_ECRIT.id_livre', $id)->get()->getResultArray()
         ]);
     }
