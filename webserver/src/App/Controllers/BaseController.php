@@ -85,7 +85,7 @@ class BaseController extends Controller
                     )
                 )
             );
-            $account_item = $nav_bar->addMenu('Account');
+            $account_item = $nav_bar->addMenu('Compte');
             $account_item->addLink('Profile', base_url('User/profile'));
         }
         else {
@@ -95,13 +95,13 @@ class BaseController extends Controller
         }
 
         if($this->isLibrarian) {
-            $bookMenu = $nav_bar->addMenu('Book');
-            $bookMenu->addLink('New', base_url('Book/add'));
+            $bookMenu = $nav_bar->addMenu('Livre');
             $bookMenu->addLink('List', base_url('Book'));
-            $authorMenu = $nav_bar->addMenu('Author');
-            $authorMenu->addLink('New', base_url('Author/add'));
-            $bibliothecaireMenu = $nav_bar->addMenu('Adherents');
-            $bibliothecaireMenu->addLink('Validate adhérents', base_url('Adherents/futursAdherents'));
+            $gestionMenu = $nav_bar->addMenu('Gestion de bibliothèque');
+            $gestionMenu->addLink('Ajout livre', base_url('Book/add'));
+            $gestionMenu->addLink('Ajout auteur', base_url('Author/add'));
+            $gestionMenu->addLink('Validate adhérents', base_url('Adherents/futursAdherents'));
+            $gestionMenu->addLink('Emprunt en attente', base_url('Emprunt'));
         }
         else {
             $bookMenu = $nav_bar->addMenu('Book');
