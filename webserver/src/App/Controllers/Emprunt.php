@@ -9,6 +9,8 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 class Emprunt extends BaseController
 {
     public function index() {
+        if(!$this->isLibrarian)
+            throw new PageNotFoundException();
         $db = \Config\Database::connect();
         $res = $db->
         table('Reservation')->
