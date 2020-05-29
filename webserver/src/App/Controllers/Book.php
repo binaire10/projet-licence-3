@@ -19,12 +19,20 @@ class Book extends BaseController
     public function watch(int $id) {
         $db = \Config\Database::connect();
         $book = $db->table('Livre')->select('*')->where('id', $id)->get()->getResultArray();
+        $id_user = $this->session->get('user');
+
+        $nb_available = $this->nb_available($id, $id_user);
+        if($this->is_reserved($id, $id_user)) {
+            $nb_available = -1;
+        }
         if(empty($book))
             throw new PageNotFoundException();
         return view('book_view', [
             'title' => $book[0]['titre'],
             'book' => $book[0],
             'canBeEdit' => $this->isLibrarian,
+            'nb' => $nb_available,
+            'id_user' => $id_user,
             'authors' => $db->table('Auteur')->select('*')->join('A_ECRIT', 'Auteur.id = A_ECRIT.id_auteur')->where('A_ECRIT.id_livre', $id)->get()->getResultArray()
         ]);
     }
@@ -124,5 +132,34 @@ class Book extends BaseController
             'url_form' => base_url('Book/add'),
             'authors' => $authors,
         ]);
+    }
+
+    public function nb_available($id, $id_user) {
+        $db = \Config\Database::connect();
+
+        //ligne inspirée par https://stackoverflow.com/questions/2686254/how-to-select-all-records-from-one-table-that-do-not-exist-in-another-table
+        return count($db->table('Exemplaire')->select('Exemplaire.id')->join('EmpruntCourant', 'EmpruntCourant.id_exemplaire = Exemplaire.id', 'left')->where('EmpruntCourant.id_exemplaire', null)->get()->getResultArray());
+    }
+
+    public function book($id_livre, $id_user) {
+        $db = \Config\Database::connect();
+        if(!$this->isUser)
+            throw new PageNotFoundException();
+
+        if($this->is_reserved($id_livre, $id_user))
+            throw new PageNotFoundException();
+
+        $db->table('Reservation')->insert(['id_livre' => $id_livre, 'id_user' => $id_user, 'date_demande' => date("Y-m-d H:i:s")]);
+    }
+
+    public function nb_empruntes($id_user) {
+        $db = \Config\Database::connect();
+        //TODO:nombre de livres empruntes
+        return 0;
+    }
+
+    public function is_reserved($id, $id_user) {
+        $db = \Config\Database::connect();
+        return count($db->table('Reservation')->select('*')->where('Reservation.id_livre', $id)->where('Reservation.id_user',$id_user)->get()->getResultArray()) > 0;
     }
 }
