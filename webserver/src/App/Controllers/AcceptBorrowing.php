@@ -54,10 +54,10 @@ class AcceptBorrowing extends BaseController
         $dueDate = $this->request->getPost('dueDate');
         if (isset($action, $userId, $bookId) && $action == 'confirm'){
             $db = \Config\Database::connect();
-            $db->table('HistoriqueEmprunt')->insert([$idExemplaire,$bookId,$userId,$bookingDate,$dueDate]);
-            $db->table('EmpruntCourant')->insert([$idExemplaire,$bookId,$userId,$bookingDate]);
+            $db->table('HistoriqueEmprunt')->insert(['id_exemplaire'=>$idExemplaire,'id_livre'=>$bookId,'id_user'=>$userId,'date_debut'=>$bookingDate,'date_retour'=>$dueDate]);
+            $db->table('EmpruntCourant')->insert(['id'=>$db->insertID(),'id_exemplaire'=>$idExemplaire,'id_livre'=>$bookId,'id_user'=>$userId,'date_debut'=>$bookingDate]);
             $db->table('Reservation')->where('id_user', $userId)->where('id_livre', $bookId)->delete();
-            return view('booking_success', ['title' => 'Booking successful']);
+            return view('booking_successful', ['title' => 'Booking successful']);
         }
         return view('booking_list',['title' => 'Liste demandes d\'emprunt','emprunt'=> $this->bookingRequests()]);
 

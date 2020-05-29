@@ -20,7 +20,7 @@ if(!isset($keys))
                                 <input type="text" name="idExemplaire" />
                                 <input type="date" name="bookingDate" />
                                 <input type="date" name="dueDate" />
-                                <button type="submit" name="action" value="confirm"/button>
+                                <button type="submit" name="action" value="confirm">Confirmer l'emprunt </button>
                             </form>
                         </div>
                     </div>

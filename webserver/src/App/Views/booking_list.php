@@ -34,13 +34,13 @@ if(!isset($emprunt))
                             <form method="post" action="<?php echo base_url('AcceptBorrowing/cancelBooking');?>" id="signin_form">
                                 <input type="hidden" name="bookId" value="<?= htmlspecialchars($emprunt['id_livre']) ?>"/>
                                 <input type="hidden" name="userId" value="<?= htmlspecialchars($emprunt['id_user']) ?>"/>
-                                <button type="submit" name="action" value="cancel"/button>
+                                <button type="submit" name="action" value="cancel">Annuler la demande d'emprunt </button>
                             </form>
                             <form method="post" action="<?php echo base_url('AcceptBorrowing/acceptBooking');?>" id="signin_form">
                                 <input type="hidden" name="bookId" value="<?= htmlspecialchars($emprunt['id_livre']) ?>"/>
                                 <input type="hidden" name="userId" value="<?= htmlspecialchars($emprunt['id_user']) ?>"/>
                                 <input type="hidden" name="title" value="<?= htmlspecialchars($emprunt['titre']) ?>"/>
-                                <button type="submit" name="action" value ="confirm"/button>
+                                <button type="submit" name="action" value ="confirm"> Confirmer </button>
                             </form>
                         </div>
                     </div>
