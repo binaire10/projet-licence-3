@@ -13,7 +13,7 @@ $this->extend('default_page'); ?>
                     <tr>
                       <th scope=\"col\">Id</th>
                       <th scope=\"col\">Utilisateur</th>
-                      <th scope=\"col\">Actions</th>
+                      <th scope=\"col\">Validate user</th>
                     </tr>
                   </thead>";
 
@@ -27,14 +27,14 @@ $this->extend('default_page'); ?>
                       <th scope='row'>$ligne[id]</th>
                       <td>$ligne[identifiant]</td>
                       <td>
-                        <form method=\"post\" action=$urlValidation class=\"form-inline\" class=$className>
+                        <form method=\"post\" action=$urlValidation class=\"form-inline $className\">
                           <div class=\"form-group mb-2\">
-                            <label for=\"staticEmail2\" class=\"sr-only\">Address ?</label>
-                            <input type=\"text\" readonly class=\"form-control-plaintext\" id=\"staticEmail2\" value=\"Address ?\">
+                            <label for=\"inputId\" class=\"sr-only\">id User</label>
+                            <input type=\"hidden\" name=\"idUser\" class=\"form-control\" id=\"inputId\" value=\"$ligne[id]\">
                           </div>
                           <div class=\"form-group mx-sm-3 mb-2\">
                             <label for=\"inputAdress\" class=\"sr-only\">Adress</label>
-                            <input type=\"text\" class=\"form-control\" id=\"inputAdress\" placeholder=\"Adress\">
+                            <input type=\"text\" name=\"address\" class=\"form-control\" id=\"inputAdress\" placeholder=\"Adress\">
                           </div>
                           <button type=\"submit\" class=\"btn btn-primary mb-2\">Confirm Adherent</button>
                         </form>
