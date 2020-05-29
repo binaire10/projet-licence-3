@@ -5,12 +5,12 @@ if(!isset($emprunt))
     throw new UnexpectedValueException(); ?>
 <?= $this->section('content') ?>
 <div class="jumbotron">
-    <?php if(isset($emprunt_found)) {
+    <?php if(empty($emprunt)) {
         ?>
         <div class="container mt-2">
             <div class="row">
                 <div class="col-md-12">
-                    <h5><?= htmlspecialchars(sizeof($emprunt_found))?></h5>
+                    <h5>Aucun emprunt en attente</h5>
                 </div>
             </div>
         </div>

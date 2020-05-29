@@ -10,15 +10,15 @@ class Emprunt extends BaseController
 {
     public function index() {
         $db = \Config\Database::connect();
-        $db->
+        $res = $db->
         table('Reservation')->
-        select('*')->
+        select('titre, nom, identifiant, date_demande')->
         join('Utilisateur','Utilisateur.id = Reservation.id_user')->
         join('Livre','Livre.id = Reservation.id_livre')->
         get()->getResultArray();
         return view('borrow_list', [
             'title' => 'Emprunt en attentes',
-            'books' => $db
+            'emprunt' => $res
         ]);
     }
 }
