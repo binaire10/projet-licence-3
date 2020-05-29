@@ -21,7 +21,7 @@ class App extends BaseConfig
 	| environments.
 	|
 	*/
-	public $baseURL = 'http://volk0s.alwaysdata.net/';
+	public $baseURL = 'http://localhost/';
 
 	/*
 	|--------------------------------------------------------------------------
