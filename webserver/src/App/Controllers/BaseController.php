@@ -85,7 +85,7 @@ class BaseController extends Controller
                     )
                 )
             );
-            $account_item = $nav_bar->addMenu('Account');
+            $account_item = $nav_bar->addMenu('Compte');
             $account_item->addLink('Profile', base_url('User/profile'));
         }
         else {
@@ -95,7 +95,7 @@ class BaseController extends Controller
         }
 
         if($this->isLibrarian) {
-            $bookMenu = $nav_bar->addMenu('Book');
+            $bookMenu = $nav_bar->addMenu('Livre');
             $bookMenu->addLink('List', base_url('Book'));
             $gestionMenu = $nav_bar->addMenu('Gestion de bibliothèque');
             $gestionMenu->addLink('Ajout livre', base_url('Book/add'));
