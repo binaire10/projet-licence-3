@@ -1,0 +1,24 @@
+# pour lancer le projet
+
+avec docker
+```
+docker-compose -f docker-compose.yml up -d
+se connecter sur phpmyadmin (localhost:8000) et executé le script dans le repertoire database
+```
+
+pour stoper le projet
+
+```
+docker-compose -f docker-compose.yml down  --remove-orphans --volumes
+```
+
+le site est disponible en ligne ici http://binaire.alwaysdata.net/ et le code sur github https://github.com/binaire10/projet-licence-3
+
+
+# Groupe
+
+Ibares Kevin
+Luu-Vu Regis
+Malkowiak Vincent
+Picavet Alexandre
+Wery Alexandre

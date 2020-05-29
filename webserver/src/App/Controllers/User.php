@@ -34,7 +34,22 @@ class User extends BaseController
                     'service' => \App\Models\TokenService::LOGIN
                 ]);
 
-                //TODO: send mail with link to confirm account
+
+                $bndary = md5(uniqid(mt_rand()));
+                $headers = 'From: noreply <' . 'binaire@alwaysdata.net' . '>' . PHP_EOL;
+                $headers .= 'Return-Path: <' . $email . '>' . "\n";
+                $headers .= 'Content-type: multipart/alternative; boundary="' . $bndary .'"'. PHP_EOL;
+                $message_text = 'Lien d\'activation de votre compte : '.base_url('Service/confirm/1/'.$token).PHP_EOL;
+                $message_html = 'Lien d\'activation de votre compte : <a href="'.base_url('Service/confirm/1/'.$token).'">Activer</a>';
+
+                $message = '--' . $bndary . "\n";
+                $message .= 'Content-Type: text/plain; charset=utf-8' . "\n\n";
+                $message .= $message_text . "\n\n";
+                $message .= '--' . $bndary . "\n";
+                $message .= 'Content-Type: text/html; charset=utf-8' . "\n\n";
+                $message .= $message_html . "\n\n";
+
+                mail($email, 'Activation de votre compte', $message, $headers);
 
                 if($this->request->isAJAX()) {
                     header('Content-Type: application/json');
@@ -59,34 +74,13 @@ class User extends BaseController
     }
 
     public function signin() {
+        force_https();
         if($this->isUser)
             throw new PageNotFoundException();
 
         $password = $this->request->getPost('password');
         $username = $this->request->getPost('username');
         $message = null;
-
-        if(isset($username, $password)) {
-            $db = \Config\Database::connect();
-            $result = $db->table('Utilisateur')
-                ->select('*')
-                ->where('identifiant', $username)
-                ->get();
-            $user = $result->getResult();
-            if(empty($user) || !password_verify($password, $user[0]->hashpassword)) {
-                $message = 'user or password invalid';
-            }
-            else {
-                $this->session->set('user', $user[0]->id);
-                if($this->request->isAJAX()) {
-                    header('Content-Type: application/json');
-                    echo json_encode(true);
-                    die;
-                }
-                header('Location: '.base_url(''));
-                die;
-            }
-        }
 
         if($this->request->isAJAX()) {
             header('Content-Type: application/json');

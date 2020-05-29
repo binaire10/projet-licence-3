@@ -135,7 +135,7 @@ namespace App\Helpers\Misc\Navigation {
                     'aria-expanded' => 'false',
                     'aria-label' => 'Toggle navigation'
                 ])->addContent(
-                    BaliseBlockBuilder::make_a([
+                    BaliseBlockBuilder::make_span([
                         'class' => 'navbar-toggler-icon'
                     ])
                 ),

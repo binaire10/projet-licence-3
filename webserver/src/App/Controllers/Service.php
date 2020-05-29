@@ -46,25 +46,48 @@ class Service extends BaseController
             header('Content-Type: application/json');
             $result = new stdClass();
             $result->ok = true;
-            if(!isset($username, $password) && !$this->verifyAccountToken($username, $tokenTable) && !$this->session->has('user')) {
+            if(!isset($username, $password) || !$this->verifyAccountToken($username, $tokenTable) || !$this->isUser) {
                 $result->ok = false;
                 echo json_encode($result);
-                return;
+                die;
             }
             $query = $userTable
                 ->select('*')
                 ->where('identifiant', $username)->get();
             $user = $query->getResult();
-            var_dump($user);
-            $this->session->set('user', );
+            if(empty($user) || !password_verify($password, $user[0]['hashpassword'])) {
+                $result->ok = false;
+                echo json_encode($result);
+                die;
+            }
+            $this->session->set('user', $user['id']);
+            echo json_encode($result);
+            die;
         }
+        if($this->isUser)
+            throw new PageNotFoundException();
+
+        $query = $userTable
+            ->select('*')
+            ->where('identifiant', $username)->get();
+        $user = $query->getResultArray();
+
+        if(empty($user) || !password_verify($password, $user[0]['hashpassword']) || !isset($username, $password) || !$this->verifyAccountToken($user[0]['id'], $tokenTable)) {
+            header('Location: '.base_url('User/signin'));
+            die;
+        }
+
+        $this->session->set('user', $user[0]['id']);
+        header('Location: '.base_url());
+        die;
     }
 
     public static function verifyAccountToken($user, BaseBuilder $builder): bool {
         $builder->select('1');
         $builder->where('id_user', $user);
         $builder->where('service', \App\Models\TokenService::LOGIN);
-        return $builder->countAllResults() === 0;
+        $result = $builder->countAllResults();
+        return $result === 0;
     }
 
     public static function verifyTokenExist(string $token, int $service, BaseBuilder $builder): bool {

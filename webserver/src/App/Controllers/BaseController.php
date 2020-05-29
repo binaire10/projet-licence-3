@@ -49,9 +49,9 @@ class BaseController extends Controller
 
         if($this->session->has('user')) {
             $db = \Config\Database::connect();
-            $bUser = $db->table('Bibliothecaire')->select('*')->where('id', $this->session->get('user'))->get()->getResultArray();
+            $this->bUser = $db->table('Bibliothecaire')->select('*')->where('id', $this->session->get('user'))->get()->getResultArray();
             $this->isUser = true;
-            $this->isLibrarian = !empty($bUser);
+            $this->isLibrarian = !empty($this->bUser);
         }
         else {
             $this->isUser = false;
@@ -85,7 +85,7 @@ class BaseController extends Controller
                     )
                 )
             );
-            $account_item = $nav_bar->addMenu('Account');
+            $account_item = $nav_bar->addMenu('Compte');
             $account_item->addLink('Profile', base_url('User/profile'));
         }
         else {
@@ -95,9 +95,13 @@ class BaseController extends Controller
         }
 
         if($this->isLibrarian) {
-            $bookMenu = $nav_bar->addMenu('Book');
-            $bookMenu->addLink('New', base_url('Book/add'));
+            $bookMenu = $nav_bar->addMenu('Livre');
             $bookMenu->addLink('List', base_url('Book'));
+            $gestionMenu = $nav_bar->addMenu('Gestion de bibliothèque');
+            $gestionMenu->addLink('Ajout livre', base_url('Book/add'));
+            $gestionMenu->addLink('Ajout auteur', base_url('Author/add'));
+            $gestionMenu->addLink('Validate adhérents', base_url('Adherents/futursAdherents'));
+            $gestionMenu->addLink('Emprunt en attente', base_url('Emprunt'));
         }
         else {
             $bookMenu = $nav_bar->addMenu('Book');

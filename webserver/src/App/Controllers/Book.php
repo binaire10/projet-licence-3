@@ -15,6 +15,71 @@ class Book extends BaseController
             'books' => $db->table('Livre')->select('*')->get()->getResultArray()
         ]);
     }
+
+    public function watch(int $id) {
+        $db = \Config\Database::connect();
+        $book = $db->table('Livre')->select('*')->where('id', $id)->get()->getResultArray();
+        if(empty($book))
+            throw new PageNotFoundException();
+        return view('book_view', [
+            'title' => $book[0]['titre'],
+            'book' => $book[0],
+            'canBeEdit' => $this->isLibrarian,
+            'authors' => $db->table('Auteur')->select('*')->join('A_ECRIT', 'Auteur.id = A_ECRIT.id_auteur')->where('A_ECRIT.id_livre', $id)->get()->getResultArray()
+        ]);
+    }
+
+    public function change(int $id) {
+        if(!$this->isLibrarian)
+            throw new PageNotFoundException();
+        $change = $this->request->getPost('change');
+        $data_achat = $this->request->getPost('exemplaires_date_achat');
+        $idExemplaire = $this->request->getPost('exemplaires_id');
+        $idRemove = $this->request->getPost('remove');
+
+        $book_title = $this->request->getPost('book_title');
+        $book_cote = $this->request->getPost('book_cote');
+        $book_summarize = $this->request->getPost('book_summarize');
+        $book_format = $this->request->getPost('book_format');
+
+        $authors = $this->request->getPost('authors');
+
+        $db = \Config\Database::connect();
+        if(isset($change)) {
+            $exemplaireDb = $db->table('Exemplaire');
+
+            if (isset($idRemove)) {
+                foreach ($idRemove as $item)
+                    $exemplaireDb->delete(['id' => $item, 'id_livre' => $id]);
+            }
+            if (isset($data_achat, $idExemplaire)) {
+                foreach ($data_achat as $index => $value)
+                    $exemplaireDb->insert(['id' => $idExemplaire[$index], 'id_livre' => $id, 'date_achat' => $value]);
+            }
+            if (isset($book_title, $book_cote, $book_summarize, $book_format))
+                $db->table('Livre')->update([
+                    'cote' => $book_cote,
+                    'titre' => $book_title,
+                    'resumer' => $book_summarize,
+                    'format' => $book_format
+                ], ['id' => $id]);
+                $db->table('A_ECRIT')->delete(['id_livre' => $id]);
+            if (isset($authors)) {
+                foreach ($authors as $author)
+                    $db->table('A_ECRIT')->insert(['id_livre' => $id, 'id_auteur' => $author]);
+            }
+        }
+        $book = $db->table('Livre')->select('*')->where('id', $id)->get()->getResultArray();
+        if(empty($book))
+            throw new PageNotFoundException();
+        return view('book_change', [
+            'title' => $book[0]['titre'],
+            'book' => $book[0],
+            'authors' => $db->table('Auteur')->select('*')->join('A_ECRIT', 'Auteur.id = A_ECRIT.id_auteur')->where('A_ECRIT.id_livre', $id)->get()->getResultArray(),
+            'exemplaires' => $db->table('Exemplaire')->select('*')->where('id_livre', $id)->get()->getResultArray()
+        ]);
+    }
+
     public function add() {
         if(!$this->isLibrarian)
             throw new PageNotFoundException();
@@ -46,7 +111,9 @@ class Book extends BaseController
         if(isset($authors)) {
             $db = \Config\Database::connect();
             $tableAuthor = $db->table('Auteur');
-            $authors = $tableAuthor->select('*')->whereIn('id', $authors)->get()->getResultArray();
+            $authors = $tableAuthor->select('*')
+                ->whereIn('id', $authors)
+                ->get()->getResultArray();
         }
         return view('book_new', [
             'title' => 'Add book new',
@@ -54,6 +121,7 @@ class Book extends BaseController
             'book_summarize' => $book_summarize,
             'book_cote' => $cote,
             'book_title' => $title,
+            'url_form' => base_url('Book/add'),
             'authors' => $authors,
         ]);
     }
