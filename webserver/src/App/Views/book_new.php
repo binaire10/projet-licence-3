@@ -98,7 +98,7 @@ $this->extend('default_page'); ?>
 <script type="text/javascript">
     $(document).ready(function () {
         let failCase = function () {
-            $('body').html('<h1>Problem de connexion re tenter plus tard. Ou version non à jour du site.</h1>');
+            $('body').html('<h1>Problème de connexion ou version du site dépassée, retenter plus tard.</h1>');
         };
 
         $("input.preview[type='file']").each(function () {

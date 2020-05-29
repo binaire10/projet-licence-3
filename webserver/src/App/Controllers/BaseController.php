@@ -101,7 +101,8 @@ class BaseController extends Controller
             $gestionMenu->addLink('Ajout livre', base_url('Book/add'));
             $gestionMenu->addLink('Ajout auteur', base_url('Author/add'));
             $gestionMenu->addLink('Validate adhérents', base_url('Adherents/futursAdherents'));
-            $gestionMenu->addLink('Liste des emprunts', base_url('Emprunt'));
+            $gestionMenu->addLink('Liste d\'emprunts', base_url('Emprunt'));
+            $gestionMenu->addLink('Emprunts en attente', base_url('AcceptBorrowing/listBooking'));
         }
         else {
             $bookMenu = $nav_bar->addMenu('Book');

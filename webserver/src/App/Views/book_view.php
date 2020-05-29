@@ -1,4 +1,7 @@
 <?php
+
+use App\Views\BorrowButton;
+
 $this->extend('default_page');
 if(!isset($book))
     throw new \CodeIgniter\Exceptions\PageNotFoundException();
@@ -56,14 +59,18 @@ if(!isset($book))
         }
         ?>
     </div>
+    <?php if (isset($canBeEdit) && $canBeEdit) {
+        ?><a class="btn btn-primary" href="<?= base_url('Book/change/'.$book['id'])?>">Modifier</a> <?php
+    } ?>
+    <?php if (isset($id_user, $nb)) {
+        $var = new BorrowButton($book['id'], $id_user, $nb);
+    ?>
+    <div name="bookButton"><?= $var->getButton() ?></div>
+    <?php
+        }
+    ?>
 </div>
 <?= $this->endSection() ?>
 <?= $this->section('script') ?>
-<script type="text/javascript">
-    $(document).ready(function () {
-        let failCase = function () {
-            $('body').html('<h1>Problem de connexion re tenter plus tard. Ou version non à jour du site.</h1>');
-        };
-    });
-</script>
+
 <?= $this->endSection() ?>
