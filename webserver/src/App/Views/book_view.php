@@ -26,7 +26,7 @@ if(!isset($book))
                 <div class="input-group-prepend">
                     <div class="input-group-text">Summarize</div>
                 </div>
-                <p class="form-control"><?= htmlspecialchars($book['resume']) ?></p>
+                <p class="form-control"><?= htmlspecialchars($book['resumer']) ?></p>
             </div>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
