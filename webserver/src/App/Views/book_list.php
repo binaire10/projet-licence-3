@@ -29,6 +29,7 @@ if(!isset($books))
                         <div class="media-body">
                             <h5><?= htmlspecialchars($book['titre']) ?></h5>
                             <p><?= htmlspecialchars($book['resumer']) ?></p>
+                            <p><a href="<?= base_url('Book/watch/'.$book['id']) ?>">Voir Livre</a></p>
                         </div>
                     </div>
                 </div>

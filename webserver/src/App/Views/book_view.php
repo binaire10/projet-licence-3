@@ -56,6 +56,9 @@ if(!isset($book))
         }
         ?>
     </div>
+    <?php if (isset($canBeEdit) && $canBeEdit) {
+        ?><a class="btn btn-primary" href="<?= base_url('Book/change/'.$book['id'])?>">Modifier</a> <?php
+    } ?>
 </div>
 <?= $this->endSection() ?>
 <?= $this->section('script') ?>

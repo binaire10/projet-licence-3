@@ -2,7 +2,8 @@
 $this->extend('default_page'); ?>
 <?= $this->section('content') ?>
 <div class="jumbotron">
-    <form enctype="multipart/form-data" method="post" action="<?= base_url('/Book/change');?>" id="new_book_form">
+    <form enctype="multipart/form-data" method="post" action="<?= base_url('/Book/change/'.$book['id']);?>" id="new_book_form">
+        <input type="hidden" name="change" value="yes">
         <div class="card mt-2">
             <div class="card-header">
                 <h5>Change book</h5>
@@ -18,7 +19,7 @@ $this->extend('default_page'); ?>
                     <div class="input-group-prepend">
                         <div class="input-group-text"><i class="fas fa-book"></i></div>
                     </div>
-                    <input type="text" name="book_title" class="form-control" placeholder="Title" <?php if(isset($book_title)) echo 'value="', htmlspecialchars($book_title), '" ';?>/>
+                    <input type="text" name="book_title" class="form-control" placeholder="Titre" <?php if(isset($book['titre'])) echo 'value="', htmlspecialchars($book['titre']), '" ';?>/>
                 </div>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
@@ -33,19 +34,19 @@ $this->extend('default_page'); ?>
                     <div class="input-group-prepend">
                         <div class="input-group-text">Cote</div>
                     </div>
-                    <input type="text" name="book_cote" class="form-control" placeholder="Cote" <?php if(isset($book_cote)) echo 'value="', htmlspecialchars($book_cote), '" ';?>/>
+                    <input type="text" name="book_cote" class="form-control" placeholder="Cote" <?php if(isset($book['cote'])) echo 'value="', htmlspecialchars($book['cote']), '" ';?>/>
                 </div>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text">Summarize</div>
                     </div>
-                    <input type="text" name="book_summarize" class="form-control" placeholder="Cote" <?php if(isset($book_summarize)) echo 'value="', htmlspecialchars($book_summarize), '" ';?>/>
+                    <input type="text" name="book_summarize" class="form-control" placeholder="Résumer" <?php if(isset($book['resumer'])) echo 'value="', htmlspecialchars($book['resumer']), '" ';?>/>
                 </div>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text">Format</div>
                     </div>
-                    <input type="text" name="book_format" class="form-control" placeholder="Cote" <?php if(isset($book_format)) echo 'value="', htmlspecialchars($book_format), '" ';?>/>
+                    <input type="text" name="book_format" class="form-control" placeholder="Format" <?php if(isset($book['format'])) echo 'value="', htmlspecialchars($book['format']), '" ';?>/>
                 </div>
             </div>
         </div>
@@ -76,18 +77,25 @@ $this->extend('default_page'); ?>
         </div>
         <div class="card mt-2">
             <div class="card-header">
-                <h5>Auteur</h5>
+                <h5>Exemplaire</h5>
             </div>
             <div class="card-body mt-2">
-                <button id="addExemplaire" type="button" class="btn btn-primary">Ajouter un Auteur</button>
-                <div class="mt-2" id="authors">
+                <button class="btn btn-primary" id="addExemplaire" href="#">Ajouter un Exemplaire</button>
+                <div class="mt-2" id="exemplaire">
+
                     <?php
                     if(isset($exemplaires)) {
                         foreach ($exemplaires as $exemplaire) {
                             ?>
                             <div class="input-group mb-2">
-                                <input type="hidden" name="authors[]" value="<?= htmlspecialchars($author['id']) ?>"/>
-                                <input type="text" disabled="disabled" class="form-control" value="<?= htmlspecialchars($author['nom']) ?>">
+                                <div class="input-group-prepend">
+                                    <span class="form-control">id</span>
+                                </div>
+                                <input type="number" disabled="disabled" value="<?= htmlspecialchars($exemplaire['id']) ?>"/>
+                                <div class="input-group-prepend ml-2">
+                                    <span class="form-control">date achat</span>
+                                </div>
+                                <input type="date" disabled="disabled" class="form-control" value="<?= htmlspecialchars($exemplaire['date_achat']) ?>">
                                 <div class="input-group-append">
                                     <button class="close btn btn-light form-control">&times;</button>
                                 </div>
@@ -106,12 +114,29 @@ $this->extend('default_page'); ?>
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Author</h5>
+                <h5 class="modal-title">Ajouter Auteur</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="exemplaire_form" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Author</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
@@ -156,15 +181,21 @@ $this->extend('default_page'); ?>
             return false;
         };
 
+        $('#exemplaire').find('button').click(function (e) {
+            e.preventDefault();
+            let self = $(this);
+            self.parent().parent().find('input[type="number"]').attr('name', 'remove[]').appendTo($('#exemplaire')).attr('type', 'hidden').removeAttr('disable');
+            self.parent().parent().remove();
+        })
+
         $('#authors').find('button.close').click(removeAuthor);
 
-        let modal = $('#authors_form');
-
-        let index = 0;
+        let modalAuthors = $('#authors_form');
+        let modalExemplaire = $('#exemplaire_form');
 
         $('#addAuthors').click(function (e) {
             e.preventDefault();
-            let body = modal.find('div.modal-body');
+            let body = modalAuthors.find('div.modal-body');
             $.ajax({
                 url: '<?= base_url('Author/get') ?>/0/10',
                 headers: {'X-Requested-With': 'XMLHttpRequest'}
@@ -217,13 +248,41 @@ $this->extend('default_page'); ?>
                         link.click(setPage);
                         item.append(link);
                         pagination.append(item);
-                        item.click()
                     }
                     body.append(result);
                     body.append($('<nav aria-label="navigation authors page"/>').append(pagination));
                 }
-                modal.modal('show');
+                modalAuthors.modal('show');
             }).fail(failCase);
+        });
+
+        $('#addExemplaire').click(function (e) {
+            e.preventDefault();
+            let body = modalExemplaire.find('div.modal-body');
+            body.html('');
+            let idInput = $('<div class="input-group mb-2">' +
+                '<div class="input-group-prepend"><span class="form-control">id</span></div>' +
+                '<input type="number" name="exemplaires_id[]" class="form-control"/>' +
+                '<div class="input-group-prepend ml-2"><span class="form-control">date achat</span></div>' +
+                '<input type="date" name="exemplaires_date_achat[]" class="form-control"/>' +
+                '<div class="input-group-append">' +
+                '<button class="btn btn-light form-control">&check;</button>' +
+                '</div>' +
+                '</div>');
+            body.append(idInput);
+            modalExemplaire.modal('show');
+            let button = idInput.find('button');
+            button.click(function (e) {
+                e.preventDefault();
+                idInput.appendTo($('#exemplaire'));
+                button.addClass('close');
+                button.unbind('click');
+                button.html('&times;')
+                modalExemplaire.modal('hide');
+                button.click(function () {
+                    idInput.remove();
+                });
+            });
         });
     });
 </script>
