@@ -10,7 +10,7 @@ if(!isset($emprunt))
         <div class="container mt-2">
             <div class="row">
                 <div class="col-md-12">
-                    <h5>Aucun emprunt en attente</h5>
+                    <h5>Aucun emprunt en cours</h5>
                 </div>
             </div>
         </div>
@@ -25,10 +25,13 @@ if(!isset($emprunt))
                 <div class="col-md-12">
                     <div class="media">
                         <div class="media-body">
-                            <h5><?= htmlspecialchars($emprunt['titre']) ?></h5>
-                            <p><?= htmlspecialchars($emprunt["nom"]) ?></p>
-                            <p><?= htmlspecialchars($emprunt["identifiant"]) ?></p>
-                            <p><?= htmlspecialchars($emprunt["date_demande"]) ?></p>
+                            <h4>Titre :<?= htmlspecialchars($emprunt['titre']) ?></h4>
+                            <p>Exemplaire n°<?= htmlspecialchars($emprunt["id_exemplaire"]) ?></p>
+                            <p>Emprunteur :<?= htmlspecialchars($emprunt["nom"]) ?></p>
+                            <p>Identifiant :<?= htmlspecialchars($emprunt["identifiant"]) ?></p>
+                            <p>Date d'emprunt :<?= htmlspecialchars($emprunt["date_debut"]) ?></p>
+                            <p>Date de retour prévu :<?= htmlspecialchars($emprunt["date_retour"]) ?></p>
+
                         </div>
                     </div>
                 </div>

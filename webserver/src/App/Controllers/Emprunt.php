@@ -13,13 +13,13 @@ class Emprunt extends BaseController
             throw new PageNotFoundException();
         $db = \Config\Database::connect();
         $res = $db->
-        table('Reservation')->
-        select('titre, nom, identifiant, date_demande')->
-        join('Utilisateur','Utilisateur.id = Reservation.id_user')->
-        join('Livre','Livre.id = Reservation.id_livre')->
+        table('HistoriqueEmprunt')->
+        select('titre, nom, identifiant, date_debut, id_exemplaire, date_retour')->
+        join('Utilisateur','Utilisateur.id = HistoriqueEmprunt.id_user')->
+        join('Livre','Livre.id = HistoriqueEmprunt.id_livre')->
         get()->getResultArray();
         return view('borrow_list', [
-            'title' => 'Emprunt en attentes',
+            'title' => 'Liste emprunt',
             'emprunt' => $res
         ]);
     }
